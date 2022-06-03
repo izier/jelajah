@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jelajah/presentation/login_page.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/presentation/register_page.dart';
+import 'package:jelajah/presentation/pages/login_page.dart';
+import 'package:jelajah/presentation/pages/register_page.dart';
 
 class WelcomePage extends StatelessWidget{
   @override

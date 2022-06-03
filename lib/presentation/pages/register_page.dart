@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/presentation/register_page.dart';
+import 'package:jelajah/presentation/pages/login_page.dart';
 
-class LoginPage extends StatefulWidget{
+class RegisterPage extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() => LoginPageState();
+  State<StatefulWidget> createState() => RegisterPageState();
 }
 
-class LoginPageState extends State<LoginPage>{
+class RegisterPageState extends State<RegisterPage>{
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -28,9 +28,16 @@ class LoginPageState extends State<LoginPage>{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Masuk', style: fontStyle.headline1),
-                  Text('Masuk ke dalam akun penjelajah kamu', style: fontStyle.bodyText1),
+                  Text('Daftar', style: fontStyle.headline1),
+                  Text('Daftarkan akun penjelajah kamu', style: fontStyle.bodyText1),
                   SizedBox(height: 40),
+                  TextField(
+                    decoration: InputDecoration(
+                        labelText: 'Nama lengkap',
+                        labelStyle: fontStyle.bodyText1
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   TextField(
                     decoration: InputDecoration(
                         labelText: 'Username',
@@ -45,6 +52,14 @@ class LoginPageState extends State<LoginPage>{
                       labelStyle: fontStyle.bodyText1,
                     ),
                   ),
+                  SizedBox(height: 20),
+                  TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Konfirmasi password',
+                      labelStyle: fontStyle.bodyText1,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -53,19 +68,19 @@ class LoginPageState extends State<LoginPage>{
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ElevatedButton(
-                    child: Text('Masuk', style: fontStyle.button),
+                    child: Text('Daftar', style: fontStyle.button),
                     style: primaryButton,
                     onPressed: (){},
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Belum punya akun?', style: fontStyle.bodyText1),
+                      Text('Sudah punya akun?', style: fontStyle.bodyText1),
                       TextButton(
-                        child: Text('Daftar', style: fontStyle.bodyText2),
+                        child: Text('Masuk', style: fontStyle.bodyText2),
                         onPressed: (){
                           Navigator.pushReplacement(
-                              context, MaterialPageRoute(builder: (context) => RegisterPage())
+                              context, MaterialPageRoute(builder: (context) => LoginPage())
                           );
                         },
                       )

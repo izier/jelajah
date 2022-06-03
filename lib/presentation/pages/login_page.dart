@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/presentation/login_page.dart';
+import 'package:jelajah/presentation/pages/main_page.dart';
+import 'package:jelajah/presentation/pages/register_page.dart';
 
-class RegisterPage extends StatefulWidget{
+class LoginPage extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() => RegisterPageState();
+  State<StatefulWidget> createState() => LoginPageState();
 }
 
-class RegisterPageState extends State<RegisterPage>{
+class LoginPageState extends State<LoginPage>{
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -28,16 +29,9 @@ class RegisterPageState extends State<RegisterPage>{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Daftar', style: fontStyle.headline1),
-                  Text('Daftarkan akun penjelajah kamu', style: fontStyle.bodyText1),
+                  Text('Masuk', style: fontStyle.headline1),
+                  Text('Masuk ke dalam akun penjelajah kamu', style: fontStyle.bodyText1),
                   SizedBox(height: 40),
-                  TextField(
-                    decoration: InputDecoration(
-                        labelText: 'Nama lengkap',
-                        labelStyle: fontStyle.bodyText1
-                    ),
-                  ),
-                  SizedBox(height: 20),
                   TextField(
                     decoration: InputDecoration(
                         labelText: 'Username',
@@ -52,14 +46,6 @@ class RegisterPageState extends State<RegisterPage>{
                       labelStyle: fontStyle.bodyText1,
                     ),
                   ),
-                  SizedBox(height: 20),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Konfirmasi password',
-                      labelStyle: fontStyle.bodyText1,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -68,19 +54,22 @@ class RegisterPageState extends State<RegisterPage>{
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ElevatedButton(
-                    child: Text('Daftar', style: fontStyle.button),
+                    child: Text('Masuk', style: fontStyle.button),
                     style: primaryButton,
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage()));
+                    },
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Sudah punya akun?', style: fontStyle.bodyText1),
+                      Text('Belum punya akun?', style: fontStyle.bodyText1),
                       TextButton(
-                        child: Text('Masuk', style: fontStyle.bodyText2),
+                        child: Text('Daftar', style: fontStyle.bodyText2),
                         onPressed: (){
                           Navigator.pushReplacement(
-                              context, MaterialPageRoute(builder: (context) => LoginPage())
+                              context, MaterialPageRoute(builder: (context) => RegisterPage())
                           );
                         },
                       )
