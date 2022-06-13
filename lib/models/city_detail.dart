@@ -1,7 +1,7 @@
 import 'package:jelajah/models/place.dart';
 import 'package:jelajah/models/plan.dart';
 
-class City {
+class CityDetail {
   String id;
   String name;
   String icon;
@@ -10,7 +10,7 @@ class City {
   List<Plan> planList;
   List<Place> placeList;
 
-  City({
+  CityDetail({
     required this.id,
     required this.name,
     required this.icon,

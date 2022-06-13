@@ -1,9 +1,9 @@
 class Mission {
   String id;
-  String title;
+  String name;
 
   Mission({
     required this.id,
-    required this.title
+    required this.name
   });
 }

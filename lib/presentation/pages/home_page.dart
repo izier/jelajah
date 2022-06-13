@@ -20,12 +20,11 @@ class HomePageState extends State<HomePage> {
     new City(id: '3', name: 'Malang', icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/500px-Circle_-_black_simple.svg.png', description: 'lorem'),
   ];
   List<Plan> planList = [
-    new Plan(id: '1', name: 'Yogyakarta basic plan', category: 1, description: 'lorem', missionList: [], placeList: [], status: false),
+    new Plan(id: '1', name: 'Yogyakarta basic plan', status: false),
+    new Plan(id: '2', name: 'Yogyakarta culinary plan', status: false),
   ];
   List<Place> placeList =[
-    new Place(name: 'Pantai Parangtritis', address: 'alamat', description: 'lorem', rating: 4.6, planList: [], image: [], coverImage: 'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
-    new Place(name: 'Pantai Parangtritis', address: 'alamat', description: 'lorem', rating: 4.6, planList: [], image: [], coverImage: 'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
-    new Place(name: 'Pantai Parangtritis', address: 'alamat', description: 'lorem', rating: 4.6, planList: [], image: [], coverImage: 'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
+    new Place(id: '1', name: 'Pantai Parangtritis', coverImage: 'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
   ];
 
   @override
@@ -105,7 +104,7 @@ class HomePageState extends State<HomePage> {
                     scrollDirection: Axis.horizontal,
                     itemCount: cityList.length,
                     itemBuilder: (context, index) {
-                      return CardCity(city: cityList[index], index: index);
+                      return CardCity(city: cityList[index], index: index, length: cityList.length);
                     },
                   ),
                 ),
@@ -119,9 +118,9 @@ class HomePageState extends State<HomePage> {
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: cityList.length,
+                    itemCount: placeList.length,
                     itemBuilder: (context, index) {
-                      return CardPlace(place: placeList[index], index: index);
+                      return CardPlace(place: placeList[index], index: index, length: placeList.length);
                     },
                   ),
                 ),
