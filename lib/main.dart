@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:jelajah/presentation/pages/confirmation_page.dart';
 import 'package:jelajah/presentation/pages/main_page.dart';
 import 'package:jelajah/presentation/pages/welcome_page.dart';
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFF2F80ED),
       ),
-      home: WelcomePage(),
+      home: MainPage(),
     );
   }
 }

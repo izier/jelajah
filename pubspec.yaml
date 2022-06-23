@@ -80,6 +80,7 @@ flutter:
     - assets/images/level_8.png
     - assets/images/level_9.png
     - assets/images/level_10.png
+    - assets/images/sent_banner.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

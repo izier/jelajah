@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
 import 'package:jelajah/models/mission.dart';
+import 'package:jelajah/presentation/pages/camera_page.dart';
 
 class CardMission extends StatelessWidget {
   Mission mission;
@@ -42,6 +43,11 @@ class CardMission extends StatelessWidget {
           ],
         ),
       ),
+      onTap: (){
+        Navigator.push(
+          context, MaterialPageRoute(builder: (context) => CameraPage(mission: mission))
+        );
+      }
     );
   }
 }
