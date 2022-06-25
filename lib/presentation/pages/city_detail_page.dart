@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/models/city_detail.dart';
+import 'package:jelajah/domain/entity/city_detail.dart';
 import 'package:jelajah/presentation/widgets/card_place.dart';
 import 'package:jelajah/presentation/widgets/card_plan.dart';
 
 class CityDetailPage extends StatelessWidget {
-  CityDetail cityDetail;
+  final CityDetail cityDetail;
 
-  CityDetailPage({required this.cityDetail});
+  const CityDetailPage({Key? key, required this.cityDetail}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,23 +17,23 @@ class CityDetailPage extends StatelessWidget {
           return [
             SliverAppBar(
               backgroundColor: Colors.white,
-              titleTextStyle: TextStyle(color: Colors.black),
-              iconTheme: IconThemeData(color: Colors.black),
+              titleTextStyle: const TextStyle(color: Colors.black),
+              iconTheme: const IconThemeData(color: Colors.black),
               title: Text(cityDetail.name, style: fontStyle.headline2),
               elevation: 0,
               pinned: true,
               expandedHeight: MediaQuery.of(context).size.height / 2,
               flexibleSpace: FlexibleSpaceBar(
                 background: Container(
-                  padding: EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(24),
                   alignment: Alignment.bottomRight,
                   child: Image.network(cityDetail.icon, width: 64),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     image: DecorationImage(
                       image: NetworkImage(cityDetail.coverImage),
-                      fit: BoxFit.cover
-                    )
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -44,18 +44,19 @@ class CityDetailPage extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 8),
+                padding: const EdgeInsets.only(
+                    top: 24, left: 24, right: 24, bottom: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(cityDetail.name, style: fontStyle.headline1),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Text(cityDetail.description, style: fontStyle.bodyText1),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Text('Paket misi tersedia', style: fontStyle.headline2),
-                    SizedBox(height: 8),
-                    Container(
+                    const SizedBox(height: 8),
+                    SizedBox(
                       height: 48 * cityDetail.planList.length.toDouble(),
                       child: ListView.builder(
                         shrinkWrap: true,
@@ -65,22 +66,25 @@ class CityDetailPage extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Text('Tempat wisata', style: fontStyle.headline2)
                   ],
                 ),
               ),
-              Container(
+              SizedBox(
                 height: 200,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: cityDetail.placeList.length,
                   itemBuilder: (context, index) {
-                    return CardPlace(place: cityDetail.placeList[index], index: index, length: cityDetail.placeList.length);
+                    return CardPlace(
+                        place: cityDetail.placeList[index],
+                        index: index,
+                        length: cityDetail.placeList.length);
                   },
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
             ],
           ),
         ),
