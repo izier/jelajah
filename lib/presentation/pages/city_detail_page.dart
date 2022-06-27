@@ -50,8 +50,9 @@ class CityDetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(height: 16),
                     Text(cityDetail.name, style: fontStyle.headline1),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 24),
                     Text(cityDetail.description, style: fontStyle.bodyText1),
                     const SizedBox(height: 16),
                     Text('Paket misi tersedia', style: fontStyle.headline2),
@@ -59,6 +60,8 @@ class CityDetailPage extends StatelessWidget {
                     SizedBox(
                       height: 48 * cityDetail.planList.length.toDouble(),
                       child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(vertical: 0),
                         shrinkWrap: true,
                         itemCount: cityDetail.planList.length,
                         itemBuilder: (context, index) {

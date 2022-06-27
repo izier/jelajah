@@ -56,6 +56,7 @@ class PlanDetailPage extends StatelessWidget {
                   Container(
                     height: 48 * planDetail.missionList.length.toDouble(),
                     child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: planDetail.missionList.length,
                       itemBuilder: (context, index) {

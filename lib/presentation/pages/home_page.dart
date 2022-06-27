@@ -75,6 +75,7 @@ class HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 48 * planList.length.toDouble(),
                   child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     padding:
                         const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
                     shrinkWrap: true,

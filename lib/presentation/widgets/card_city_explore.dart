@@ -50,20 +50,15 @@ class CardCityExplore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+      padding: EdgeInsets.all(16),
       margin: const EdgeInsets.only(bottom: 16),
       height: 120,
       decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(
-            color: Colors.white,
-            style: BorderStyle.solid,
-            width: 2.0,
-          ),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
+                color: Colors.grey.withOpacity(0.1),
                 blurRadius: 4,
                 offset: const Offset(0, 4))
           ]),
@@ -71,22 +66,16 @@ class CardCityExplore extends StatelessWidget {
         child: Row(
           children: [
             Image.network(city.icon),
+            SizedBox(
+              width: 16,
+            ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 16, 0, 8),
-                    child: Text(city.name,
-                        style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500))),
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
-                    child: Text(city.description,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400))),
+                Text(city.name, style: fontStyle.headline2),
+                SizedBox(height: 8),
+                Text(city.description, style: fontStyle.caption),
               ],
             )
           ],

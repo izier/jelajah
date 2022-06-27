@@ -25,6 +25,13 @@ var fontStyle = TextTheme(
       fontSize: 24, fontWeight: FontWeight.w800, letterSpacing: 0.15),
   headline2: GoogleFonts.lexend(
       fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: 0.15),
+  headline3: GoogleFonts.lexend(
+      fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 0.15),
+  headline4: GoogleFonts.lexend(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0.15,
+      color: Colors.red),
   button: GoogleFonts.lexend(
       fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: 0.15),
   bodyText1: GoogleFonts.inter(
@@ -40,9 +47,6 @@ var fontStyle = TextTheme(
       fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 0.1),
   caption: GoogleFonts.inter(
       fontSize: 12, fontWeight: FontWeight.w500, letterSpacing: 0.4),
-  headline3: GoogleFonts.lexend(fontSize: 48, fontWeight: FontWeight.w400),
-  headline4: GoogleFonts.lexend(
-      fontSize: 34, fontWeight: FontWeight.w400, letterSpacing: 0.25),
   headline5: GoogleFonts.lexend(fontSize: 24, fontWeight: FontWeight.w400),
   headline6: GoogleFonts.lexend(
       fontSize: 20, fontWeight: FontWeight.w500, letterSpacing: 0.15),

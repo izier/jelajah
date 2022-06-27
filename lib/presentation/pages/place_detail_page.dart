@@ -70,6 +70,8 @@ class PlaceDetailPage extends StatelessWidget {
                     SizedBox(
                       height: 48 * placeDetail.planList.length.toDouble(),
                       child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(vertical: 0),
                         shrinkWrap: true,
                         itemCount: placeDetail.planList.length,
                         itemBuilder: (context, index) {

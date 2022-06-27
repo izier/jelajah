@@ -43,17 +43,14 @@ class AccountPageState extends State<AccountPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
+                    Padding(
                         padding: EdgeInsets.fromLTRB(0, 40, 0, 18),
                         child: Text('Felisa Indah Sari',
-                            style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700))),
-                    const Padding(
+                            style: fontStyle.headline1)),
+                    Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 16),
                         child: Text('Hallo ini adalah status ku',
-                            style: TextStyle(fontSize: 16, color: colorAbu))),
+                            style: fontStyle.caption)),
                     const SizedBox(height: 8),
                     Row(
                       children: [
@@ -93,13 +90,13 @@ class AccountPageState extends State<AccountPage> {
                 const SizedBox(height: 16),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(24, 12, 0, 11),
-                    child: Text('Status misi', style: fontStyle.headline2)),
+                    child: Text('Misi selesai', style: fontStyle.headline2)),
                 const SizedBox(height: 8),
                 SizedBox(
                   height: 48 * planList.length.toDouble(),
                   child: ListView.builder(
                     padding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
                     shrinkWrap: true,
                     itemCount: planList.length,
                     itemBuilder: (context, index) {
@@ -139,19 +136,15 @@ class AccountPageState extends State<AccountPage> {
                         boxShadow: [
                           BoxShadow(
                               color:
-                              CardClearMission.colorMerah.withOpacity(0.1),
+                                  CardClearMission.colorMerah.withOpacity(0.1),
                               blurRadius: 4,
                               offset: const Offset(0, 4))
                         ]),
                     child: Row(
                       children: [
-                        Image.asset('assets/images/logout.png', width: 16),
+                        const Icon(Icons.logout, color: Colors.red),
                         const SizedBox(width: 4),
-                        const Text('Keluar',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500)),
+                        Text('Keluar', style: fontStyle.headline4),
                       ],
                     ),
                   ),

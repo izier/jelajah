@@ -7,9 +7,7 @@ import '../../domain/entity/menu.dart';
 class CardMenu extends StatelessWidget {
   Menu menuItem;
 
-  CardMenu({Key? key,
-    required this.menuItem
-  }) : super(key: key);
+  CardMenu({Key? key, required this.menuItem}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +19,10 @@ class CardMenu extends StatelessWidget {
           child: Row(
             children: [
               const SizedBox(width: 4),
-              Text('\u2022 ' +menuItem.name,
-                style: const TextStyle(fontSize: 16,color: Colors.black ,fontWeight: FontWeight.w500)),
+              Text('\u2022 ' + menuItem.name, style: fontStyle.headline3),
             ],
           ),
         ),
-        onTap: () {
-        }
-    );
+        onTap: () {});
   }
 }

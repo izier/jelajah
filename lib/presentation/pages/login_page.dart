@@ -11,10 +11,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -37,6 +41,7 @@ class LoginPageState extends State<LoginPage> {
                 TextField(
                   decoration: InputDecoration(
                       labelText: 'Username', labelStyle: fontStyle.bodyText1),
+                  controller: usernameController,
                 ),
                 const SizedBox(height: 20),
                 TextField(
@@ -45,6 +50,7 @@ class LoginPageState extends State<LoginPage> {
                     labelText: 'Password',
                     labelStyle: fontStyle.bodyText1,
                   ),
+                  controller: passwordController,
                 ),
               ],
             ),

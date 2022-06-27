@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
+import 'package:jelajah/data/model/register_model.dart';
 import 'package:jelajah/presentation/pages/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -10,13 +11,28 @@ class RegisterPage extends StatefulWidget {
 }
 
 class RegisterPageState extends State<RegisterPage> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  final usernameController = TextEditingController();
+  final fullnameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  bool confirmPassValidate = false;
+  bool usernameValidate = false;
+  bool fullnameValidate = false;
+  bool passwordValidate = false;
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -29,55 +45,134 @@ class RegisterPageState extends State<RegisterPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Daftar', style: fontStyle.headline1),
-                Text('Daftarkan akun penjelajah kamu',
-                    style: fontStyle.bodyText1),
-                const SizedBox(height: 40),
-                TextField(
-                  decoration: InputDecoration(
-                      labelText: 'Nama lengkap',
-                      labelStyle: fontStyle.bodyText1),
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  decoration: InputDecoration(
-                      labelText: 'Username', labelStyle: fontStyle.bodyText1),
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    labelStyle: fontStyle.bodyText1,
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Daftar',
+                    style: fontStyle.headline1,
                   ),
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Konfirmasi password',
-                    labelStyle: fontStyle.bodyText1,
+                  Text(
+                    'Daftarkan akun penjelajah kamu',
+                    style: fontStyle.bodyText1,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 40),
+                  TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Nama lengkap',
+                        labelStyle: fontStyle.bodyText1,
+                      ),
+                      controller: fullnameController,
+                      validator: (fullname) {
+                        if (fullname == null || fullname.isEmpty) {
+                          fullnameValidate = false;
+                          return 'Nama lengkap wajib diisi';
+                        }
+                        fullnameValidate = true;
+                        return null;
+                      }),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Username',
+                      labelStyle: fontStyle.bodyText1,
+                    ),
+                    controller: usernameController,
+                    validator: (username) {
+                      if (username == null || username.isEmpty) {
+                        usernameValidate = false;
+                        return 'Username wajib diisi';
+                      }
+                      usernameValidate = true;
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      labelStyle: fontStyle.bodyText1,
+                    ),
+                    controller: passwordController,
+                    validator: (password) {
+                      if (password == null || password.isEmpty) {
+                        passwordValidate = false;
+                        return 'Password wajib diisi';
+                      } else if (password.length < 8) {
+                        passwordValidate = false;
+                        return 'Panjang password tidak boleh kurang dari 8 karakter';
+                      }
+                      passwordValidate = true;
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Konfirmasi password',
+                      labelStyle: fontStyle.bodyText1,
+                    ),
+                    controller: confirmPasswordController,
+                    validator: (confirmPassword) {
+                      if (confirmPassword == null || confirmPassword.isEmpty) {
+                        confirmPassValidate = false;
+                        return 'Konfirmasi password wajib diisi';
+                      } else if (!(confirmPassword ==
+                          passwordController.text)) {
+                        confirmPassValidate = false;
+                        return 'Konfirmasi password wajib sama dengan password';
+                      }
+                      confirmPassValidate = true;
+                      return null;
+                    },
+                  ),
+                ],
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ElevatedButton(
-                  child: Text('Daftar', style: fontStyle.button),
+                  child: Text(
+                    'Daftar',
+                    style: fontStyle.button,
+                  ),
                   style: primaryButton,
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // add register logic
+                      const snackBar = SnackBar(
+                        content: Text(
+                            'Akun terdaftar, silahkan masuk menggunakan akun baru Anda'),
+                        backgroundColor: Colors.green,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
+                      const snackBar = SnackBar(
+                        content:
+                            Text('Pastikan data telah terisi dengan benar'),
+                        backgroundColor: Colors.red,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Sudah punya akun?', style: fontStyle.bodyText1),
+                    Text(
+                      'Sudah punya akun?',
+                      style: fontStyle.bodyText1,
+                    ),
                     TextButton(
-                      child: Text('Masuk', style: fontStyle.bodyText2),
+                      child: Text(
+                        'Masuk',
+                        style: fontStyle.bodyText2,
+                      ),
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,
