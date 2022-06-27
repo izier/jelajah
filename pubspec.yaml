@@ -35,9 +35,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   http: ^0.13.3
-  provider: ^5.0.0
   google_fonts: ^2.1.0
   percent_indicator: ^4.2.2
+  flutter_bloc: ^8.0.1
+  equatable: ^2.0.3
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +71,7 @@ flutter:
     - assets/images/home_banner.png
     - assets/images/logo.png
     - assets/images/logo_text.png
+    - assets/images/logout.png
     - assets/images/welcome_banner.png
     - assets/images/level_1.png
     - assets/images/level_2.png

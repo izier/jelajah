@@ -1,11 +1,9 @@
-class Plan {
+class Menu {
   String id;
   String name;
-  bool status;
 
-  Plan({
+  Menu({
     required this.id,
     required this.name,
-    required this.status
   });
 }
