@@ -14,6 +14,8 @@ class LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -31,28 +33,43 @@ class LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Masuk', style: fontStyle.headline1),
-                Text('Masuk ke dalam akun penjelajah kamu',
-                    style: fontStyle.bodyText1),
-                const SizedBox(height: 40),
-                TextField(
-                  decoration: InputDecoration(
-                      labelText: 'Username', labelStyle: fontStyle.bodyText1),
-                  controller: usernameController,
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    labelStyle: fontStyle.bodyText1,
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Masuk', style: fontStyle.headline1),
+                  Text('Masuk ke dalam akun penjelajah kamu',
+                      style: fontStyle.bodyText1),
+                  const SizedBox(height: 40),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        labelText: 'Username', labelStyle: fontStyle.bodyText1),
+                    controller: usernameController,
+                    validator: (username) {
+                      if (username == null || username.isEmpty) {
+                        return 'Username wajib diisi';
+                      }
+                      return null;
+                    },
                   ),
-                  controller: passwordController,
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      labelStyle: fontStyle.bodyText1,
+                    ),
+                    controller: passwordController,
+                    validator: (password) {
+                      if (password == null || password.isEmpty) {
+                        return 'Password wajib diisi';
+                      }
+                      return null;
+                    },
+                  ),
+                ],
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

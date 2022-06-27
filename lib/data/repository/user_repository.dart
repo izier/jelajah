@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:jelajah/common/exception.dart';
+import 'package:jelajah/common/failure.dart';
 
 import 'package:jelajah/data/model/login_model.dart';
 import 'package:jelajah/data/model/register_model.dart';
@@ -20,15 +24,14 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<FailureException, RestaurantDetail>> getRestaurantDetail(
-      String id) async {
+  Future<Either<Failure, String>> login(LoginModel loginModel) async {
     try {
-      final result = await remoteDataSource.getRestaurantDetail(id);
-      return Right(result.toEntity());
+      final result = await apiService.loginUser(loginModel);
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure(''));
     } on SocketException {
-      return const Left(FailureException('No internet connection'));
-    } catch (e) {
-      return const Left(FailureException('Failed to load Restaurant Lsit'));
+      return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
 

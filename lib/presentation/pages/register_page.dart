@@ -15,10 +15,6 @@ class RegisterPageState extends State<RegisterPage> {
   final fullnameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  bool confirmPassValidate = false;
-  bool usernameValidate = false;
-  bool fullnameValidate = false;
-  bool passwordValidate = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -67,10 +63,8 @@ class RegisterPageState extends State<RegisterPage> {
                       controller: fullnameController,
                       validator: (fullname) {
                         if (fullname == null || fullname.isEmpty) {
-                          fullnameValidate = false;
                           return 'Nama lengkap wajib diisi';
                         }
-                        fullnameValidate = true;
                         return null;
                       }),
                   const SizedBox(height: 20),
@@ -82,10 +76,8 @@ class RegisterPageState extends State<RegisterPage> {
                     controller: usernameController,
                     validator: (username) {
                       if (username == null || username.isEmpty) {
-                        usernameValidate = false;
                         return 'Username wajib diisi';
                       }
-                      usernameValidate = true;
                       return null;
                     },
                   ),
@@ -99,13 +91,10 @@ class RegisterPageState extends State<RegisterPage> {
                     controller: passwordController,
                     validator: (password) {
                       if (password == null || password.isEmpty) {
-                        passwordValidate = false;
                         return 'Password wajib diisi';
                       } else if (password.length < 8) {
-                        passwordValidate = false;
                         return 'Panjang password tidak boleh kurang dari 8 karakter';
                       }
-                      passwordValidate = true;
                       return null;
                     },
                   ),
@@ -119,14 +108,11 @@ class RegisterPageState extends State<RegisterPage> {
                     controller: confirmPasswordController,
                     validator: (confirmPassword) {
                       if (confirmPassword == null || confirmPassword.isEmpty) {
-                        confirmPassValidate = false;
                         return 'Konfirmasi password wajib diisi';
                       } else if (!(confirmPassword ==
                           passwordController.text)) {
-                        confirmPassValidate = false;
                         return 'Konfirmasi password wajib sama dengan password';
                       }
-                      confirmPassValidate = true;
                       return null;
                     },
                   ),
