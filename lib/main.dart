@@ -1,12 +1,10 @@
 import "package:flutter/material.dart";
-import 'package:jelajah/data/service/shared_preferences_service.dart';
-import 'package:jelajah/presentation/pages/main_page.dart';
 import 'package:jelajah/presentation/pages/welcome_page.dart';
 
 Widget home = const WelcomePage();
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

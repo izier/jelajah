@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:jelajah/common/exception.dart';
+import 'package:jelajah/common/failure.dart';
 
 import 'package:jelajah/data/model/login_model.dart';
 import 'package:jelajah/data/model/register_model.dart';
 import 'package:jelajah/data/service/api_service.dart';
 
 abstract class UserRepository {
-  Future<String> login(LoginModel loginModel);
-  Future<String> register(RegisterModel registerModel);
+  Future<Either<Failure, String>> login(LoginModel loginModel);
+  Future<Either<Failure, String>> register(RegisterModel registerModel);
 }
 
 class UserRepositoryImpl implements UserRepository {
@@ -15,25 +19,26 @@ class UserRepositoryImpl implements UserRepository {
   const UserRepositoryImpl({required this.apiService});
 
   @override
-  Future<String> login(LoginModel loginModel) async {
-    return await apiService.loginUser(loginModel);
-  }
-
-  @override
-  Future<Either<FailureException, RestaurantDetail>> getRestaurantDetail(
-      String id) async {
+  Future<Either<Failure, String>> login(LoginModel loginModel) async {
     try {
-      final result = await remoteDataSource.getRestaurantDetail(id);
-      return Right(result.toEntity());
+      final result = await apiService.loginUser(loginModel);
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure(''));
     } on SocketException {
-      return const Left(FailureException('No internet connection'));
-    } catch (e) {
-      return const Left(FailureException('Failed to load Restaurant Lsit'));
+      return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
 
   @override
-  Future<String> register(RegisterModel registerModel) async {
-    return await apiService.registerUser(registerModel);
+  Future<Either<Failure, String>> register(RegisterModel registerModel) async {
+    try {
+      final result = await apiService.registerUser(registerModel);
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure(''));
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
   }
 }

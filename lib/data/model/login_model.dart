@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:jelajah/domain/entity/login.dart';
 
 class LoginModel extends Equatable {
   final String username;
@@ -13,6 +14,8 @@ class LoginModel extends Equatable {
         "username": username,
         "password": password,
       };
+
+  Login toEntity() => Login(username: username, password: password);
 
   @override
   List<Object?> get props => [

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:jelajah/domain/entity/register.dart';
 
 class RegisterModel extends Equatable {
   final String fullname;
@@ -16,6 +17,12 @@ class RegisterModel extends Equatable {
         "username": username,
         "password": password,
       };
+
+  Register toEntity() => Register(
+        fullname: fullname,
+        username: username,
+        password: password,
+      );
 
   @override
   List<Object?> get props => [
