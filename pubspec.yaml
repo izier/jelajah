@@ -71,6 +71,7 @@ flutter:
     - assets/images/home_banner.png
     - assets/images/logo.png
     - assets/images/logo_text.png
+    - assets/images/logout.png
     - assets/images/welcome_banner.png
     - assets/images/level_1.png
     - assets/images/level_2.png

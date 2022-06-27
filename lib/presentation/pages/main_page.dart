@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
+import 'package:jelajah/presentation/pages/account_page.dart';
+import 'package:jelajah/presentation/pages/explore_page.dart';
 import 'package:jelajah/presentation/pages/home_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -14,12 +16,8 @@ class MainPageState extends State<MainPage> {
 
   static final List<Widget> _menus = <Widget>[
     const HomePage(),
-    const Text(
-      'Jelajah',
-    ),
-    const Text(
-      'Akun',
-    ),
+    const ExplorePage(),
+    const AccountPage()
   ];
 
   void _onMenuTapped(int index) {
