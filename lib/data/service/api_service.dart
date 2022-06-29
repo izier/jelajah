@@ -20,16 +20,11 @@ class ApiService {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'name': registerModel.fullname,
-        'username': registerModel.username,
-        'password': registerModel.password
-      }),
+      body: registerModel.toJson(),
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final result = RegisterResponse.fromJson(json.decode(response.body));
-      return result.status == "success" ? result.message : result.message;
+      return result.message;
     } else {
       throw ServerException();
     }
@@ -41,20 +36,17 @@ class ApiService {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'username': loginModel.username,
-        'password': loginModel.password,
-      }),
+      body: loginModel.toJson(),
     );
     if (response.statusCode == 200) {
       final result = LoginResponse.fromJson(json.decode(response.body));
-      return result.status == "success" ? result.message : result.message;
+      return result.message;
     } else {
       throw ServerException();
     }
   }
 
   Future findUserById(String id) async {
-    await _client.get(Uri.parse(baseUrl + '/users/' + id));
+    await _client.get(Uri.parse(baseUrl + 'users/' + id));
   }
 }

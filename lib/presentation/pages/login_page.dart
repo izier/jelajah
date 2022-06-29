@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jelajah/common/exception.dart';
 import 'package:jelajah/common/theme.dart';
 import 'package:jelajah/data/model/login_model.dart';
 import 'package:jelajah/data/repository/user_repository.dart';
@@ -82,22 +83,30 @@ class LoginPageState extends State<LoginPage> {
                   style: primaryButton,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      ApiService apiService = ApiService();
-                      UserRepositoryImpl repository =
-                          UserRepositoryImpl(apiService: apiService);
-                      LoginModel user = LoginModel(
-                          username: usernameController.text,
-                          password: passwordController.text);
-                      repository.login(user);
-                      const snackBar = SnackBar(
-                        content: Text('Berhasil login'),
-                        backgroundColor: Colors.green,
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      try {
+                        ApiService apiService = ApiService();
+                        UserRepositoryImpl repository =
+                            UserRepositoryImpl(apiService: apiService);
+                        LoginModel user = LoginModel(
+                            username: usernameController.text,
+                            password: passwordController.text);
+                        var result = repository.login(user);
+                        const snackBar = SnackBar(
+                          content: Text('Berhasil login'),
+                          backgroundColor: Colors.green,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } on DatabaseException catch (e) {
+                        SnackBar snackBar = SnackBar(
+                          content: Text(e.message),
+                          backgroundColor: Colors.red,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     } else {
                       const snackBar = SnackBar(
-                        content: Text(
-                            'Data yang masuk tidak sesuai dengan akun manapun'),
+                        content:
+                            Text('Pastikan data telah terisi dengan benar'),
                         backgroundColor: Colors.red,
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);

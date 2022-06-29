@@ -24,7 +24,9 @@ class UserRepositoryImpl implements UserRepository {
       final result = await apiService.loginUser(loginModel);
       return Right(result);
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return const Left(
+        ServerFailure('Kombinasi username atau password salah'),
+      );
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
@@ -36,7 +38,9 @@ class UserRepositoryImpl implements UserRepository {
       final result = await apiService.registerUser(registerModel);
       return Right(result);
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return const Left(
+        ServerFailure('Username telah terdaftar'),
+      );
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }

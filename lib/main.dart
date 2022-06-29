@@ -1,9 +1,13 @@
 import "package:flutter/material.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jelajah/presentation/blocs/register/register_bloc.dart';
 import 'package:jelajah/presentation/pages/welcome_page.dart';
+import 'package:jelajah/injection.dart' as di;
 
 Widget home = const WelcomePage();
 
 void main() {
+  di.init();
   runApp(const MyApp());
 }
 
@@ -12,12 +16,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Jelajah',
-      theme: ThemeData(
-        primaryColor: const Color(0xFF2F80ED),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => di.locator<RegisterBloc>(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Jelajah',
+        theme: ThemeData(
+          primaryColor: const Color(0xFF2F80ED),
+        ),
+        home: home,
       ),
-      home: home,
     );
   }
 }

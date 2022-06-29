@@ -13,7 +13,7 @@ class RegisterModel extends Equatable {
   });
 
   Map<String, dynamic> toJson() => {
-        "name": fullname,
+        "fullname": fullname,
         "username": username,
         "password": password,
       };
