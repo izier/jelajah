@@ -12,16 +12,21 @@ class ApiService {
 
   ApiService({http.Client? client}) : _client = client ?? http.Client();
 
-  final baseUrl = 'https://jelajah-back-end.sysfdn.repl.co';
+  final baseUrl = 'https://jelajah-back-end.sysfdn.repl.co/';
 
   Future<String> registerUser(RegisterModel registerModel) async {
     final response = await _client.post(
-      Uri.parse(baseUrl + 'login'),
+      Uri.parse(baseUrl + 'register'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: registerModel,
+      body: jsonEncode(<String, String>{
+        'name': registerModel.fullname,
+        'username': registerModel.username,
+        'password': registerModel.password
+      }),
     );
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final result = RegisterResponse.fromJson(json.decode(response.body));
       return result.status == "success" ? result.message : result.message;
@@ -36,7 +41,10 @@ class ApiService {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: loginModel,
+      body: jsonEncode(<String, String>{
+        'username': loginModel.username,
+        'password': loginModel.password,
+      }),
     );
     if (response.statusCode == 200) {
       final result = LoginResponse.fromJson(json.decode(response.body));

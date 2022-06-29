@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
+import 'package:jelajah/data/model/login_model.dart';
+import 'package:jelajah/data/repository/user_repository.dart';
+import 'package:jelajah/data/service/api_service.dart';
 import 'package:jelajah/presentation/pages/main_page.dart';
 import 'package:jelajah/presentation/pages/register_page.dart';
 
@@ -78,9 +81,32 @@ class LoginPageState extends State<LoginPage> {
                   child: Text('Masuk', style: fontStyle.button),
                   style: primaryButton,
                   onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      ApiService apiService = ApiService();
+                      UserRepositoryImpl repository =
+                          UserRepositoryImpl(apiService: apiService);
+                      LoginModel user = LoginModel(
+                          username: usernameController.text,
+                          password: passwordController.text);
+                      repository.login(user);
+                      const snackBar = SnackBar(
+                        content: Text('Berhasil login'),
+                        backgroundColor: Colors.green,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
+                      const snackBar = SnackBar(
+                        content: Text(
+                            'Data yang masuk tidak sesuai dengan akun manapun'),
+                        backgroundColor: Colors.red,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                    /*
                     Navigator.pop(context);
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => MainPage()));
+                    */
                   },
                 ),
                 Row(

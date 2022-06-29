@@ -12,7 +12,7 @@ class RegisterResponse extends Equatable {
   factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
       RegisterResponse(
         status: json["status"],
-        message: json["message"],
+        message: json["messsage"],
       );
 
   @override

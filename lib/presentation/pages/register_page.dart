@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
+import 'package:jelajah/data/model/register_model.dart';
+import 'package:jelajah/data/repository/user_repository.dart';
+import 'package:jelajah/data/service/api_service.dart';
 import 'package:jelajah/presentation/pages/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -129,7 +132,14 @@ class RegisterPageState extends State<RegisterPage> {
                   style: primaryButton,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // add register logic
+                      ApiService apiService = ApiService();
+                      UserRepositoryImpl repository =
+                          UserRepositoryImpl(apiService: apiService);
+                      RegisterModel user = RegisterModel(
+                          fullname: fullnameController.text,
+                          username: usernameController.text,
+                          password: passwordController.text);
+                      repository.register(user);
                       const snackBar = SnackBar(
                         content: Text(
                             'Akun terdaftar, silahkan masuk menggunakan akun baru Anda'),
