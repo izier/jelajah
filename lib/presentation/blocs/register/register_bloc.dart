@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:jelajah/data/model/register_model.dart';
 import 'package:jelajah/data/repository/user_repository.dart';
 
@@ -13,7 +12,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterUserEvent>((event, emit) async {
       emit(RegisterLoading());
       final user = event.user;
-      if (kDebugMode) print(user);
       final result = await userRepository.register(user);
 
       result.fold((failure) {

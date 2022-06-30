@@ -44,11 +44,11 @@ class AccountPageState extends State<AccountPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.fromLTRB(0, 40, 0, 18),
+                        padding: const EdgeInsets.fromLTRB(0, 40, 0, 18),
                         child: Text('Felisa Indah Sari',
                             style: fontStyle.headline1)),
                     Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 16),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
                         child: Text('Hallo ini adalah status ku',
                             style: fontStyle.caption)),
                     const SizedBox(height: 8),

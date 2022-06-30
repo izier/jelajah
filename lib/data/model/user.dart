@@ -6,19 +6,20 @@ class UserModel extends Equatable {
   final String fullname;
   final String username;
   final String password;
+  final int points;
+  const UserModel(
+      {required this.id,
+      required this.fullname,
+      required this.username,
+      required this.password,
+      required this.points});
 
-  const UserModel({
-    required this.id,
-    required this.fullname,
-    required this.username,
-    required this.password,
-  });
-
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+  factory UserModel.fromJson(Map<dynamic, dynamic> json) => UserModel(
         id: json["id"],
         fullname: json["fullname"],
         username: json["username"],
         password: json["password"],
+        points: json["points"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -26,6 +27,7 @@ class UserModel extends Equatable {
         "fullname": fullname,
         "username": username,
         "password": password,
+        "points": points,
       };
 
   User toEntity() => User(
@@ -33,6 +35,7 @@ class UserModel extends Equatable {
         fullname: fullname,
         username: username,
         password: password,
+        points: points,
       );
 
   @override

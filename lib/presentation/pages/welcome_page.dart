@@ -11,6 +11,7 @@ class WelcomePage extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         height: screenHeight,
         padding: const EdgeInsets.symmetric(horizontal: 24),

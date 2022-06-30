@@ -5,7 +5,7 @@ import 'package:jelajah/presentation/widgets/card_mission.dart';
 import 'package:jelajah/presentation/widgets/card_place.dart';
 
 class PlanDetailPage extends StatelessWidget {
-  PlanDetail planDetail;
+  final PlanDetail planDetail;
 
   PlanDetailPage({required this.planDetail});
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jelajah/common/theme.dart';
 import 'package:jelajah/presentation/pages/account_page.dart';
 import 'package:jelajah/presentation/pages/explore_page.dart';
@@ -13,7 +14,6 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> {
   int _selectedPage = 0;
-
   static final List<Widget> _menus = <Widget>[
     const HomePage(),
     const ExplorePage(),

@@ -6,10 +6,12 @@ import 'package:jelajah/common/failure.dart';
 
 import 'package:jelajah/data/model/login_model.dart';
 import 'package:jelajah/data/model/register_model.dart';
+import 'package:jelajah/data/model/user.dart';
 import 'package:jelajah/data/service/api_service.dart';
+import 'package:jelajah/domain/entity/user.dart';
 
 abstract class UserRepository {
-  Future<Either<Failure, String>> login(LoginModel loginModel);
+  Future<Either<Failure, UserModel>> login(LoginModel loginModel);
   Future<Either<Failure, String>> register(RegisterModel registerModel);
 }
 
@@ -19,7 +21,7 @@ class UserRepositoryImpl implements UserRepository {
   const UserRepositoryImpl({required this.apiService});
 
   @override
-  Future<Either<Failure, String>> login(LoginModel loginModel) async {
+  Future<Either<Failure, UserModel>> login(LoginModel loginModel) async {
     try {
       final result = await apiService.loginUser(loginModel);
       return Right(result);
@@ -39,7 +41,7 @@ class UserRepositoryImpl implements UserRepository {
       return Right(result);
     } on ServerException {
       return const Left(
-        ServerFailure('Username telah terdaftar'),
+        ServerFailure('Username telah terdaftar, pilih username lain'),
       );
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));

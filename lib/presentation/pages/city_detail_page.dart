@@ -50,7 +50,7 @@ class CityDetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Text(cityDetail.name, style: fontStyle.headline1),
                     const SizedBox(height: 24),
                     Text(cityDetail.description, style: fontStyle.bodyText1),

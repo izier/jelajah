@@ -6,6 +6,7 @@ import 'package:jelajah/data/model/login_model.dart';
 import 'package:jelajah/data/model/login_response.dart';
 import 'package:jelajah/data/model/register_model.dart';
 import 'package:jelajah/data/model/register_response.dart';
+import 'package:jelajah/data/model/user.dart';
 
 class ApiService {
   final http.Client _client;
@@ -18,7 +19,7 @@ class ApiService {
     final response = await _client.post(
       Uri.parse(baseUrl + 'register'),
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: registerModel.toJson(),
     );
@@ -30,17 +31,23 @@ class ApiService {
     }
   }
 
-  Future<String> loginUser(LoginModel loginModel) async {
+  Future<UserModel> loginUser(LoginModel loginModel) async {
     final response = await _client.post(
       Uri.parse(baseUrl + 'login'),
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: loginModel.toJson(),
     );
     if (response.statusCode == 200) {
-      final result = LoginResponse.fromJson(json.decode(response.body));
-      return result.message;
+      final result = await LoginResponse.fromJson(json.decode(response.body));
+      final user = UserModel(
+          id: result.id,
+          fullname: result.fullname,
+          username: result.username,
+          password: result.password,
+          points: result.points);
+      return user;
     } else {
       throw ServerException();
     }
