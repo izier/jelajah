@@ -1,13 +1,13 @@
-import 'package:jelajah/data/model/login_model.dart';
 import 'package:jelajah/data/repository/user_repository.dart';
+import 'package:jelajah/domain/entity/login.dart';
 
 class UserUsecase {
   final UserRepository userRepository;
 
   UserUsecase({required this.userRepository});
 
-  login(LoginModel loginModel) {
-    return userRepository.login(loginModel);
+  login(Login login) {
+    return userRepository.login(login);
   }
 
   register() {}

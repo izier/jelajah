@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:jelajah/data/model/user.dart';
 
 class LoginResponse extends Equatable {
   final String status;
@@ -7,7 +6,7 @@ class LoginResponse extends Equatable {
   final String fullname;
   final String username;
   final String password;
-  final String id;
+  final int id;
   final int points;
 
   const LoginResponse({
@@ -31,6 +30,13 @@ class LoginResponse extends Equatable {
       );
 
   @override
-  List<Object?> get props =>
-      [status, message, fullname, username, password, id, points];
+  List<Object?> get props => [
+        status,
+        message,
+        fullname,
+        username,
+        password,
+        id,
+        points,
+      ];
 }

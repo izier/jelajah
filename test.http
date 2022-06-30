@@ -1,0 +1,36 @@
+###
+# User Register
+
+POST https://jelajah-back-end.sysfdn.repl.co/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "fullname": "nama lengkap",
+  "username": "asep123456789",
+  "password": "password123"
+}
+###
+# User Login
+
+POST https://jelajah-back-end.sysfdn.repl.co/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "asep123456789",
+  "password": "password123"
+}
+
+###
+# Get All User
+GET https://jelajah-back-end.sysfdn.repl.co/users
+Content-Type: application/json
+Accept: application/json
+
+###
+# Find User by Id
+
+GET https://jelajah-back-end.sysfdn.repl.co/users/1
+Content-Type: application/json
+Accept: application/json

@@ -13,15 +13,17 @@ class ApiService {
 
   ApiService({http.Client? client}) : _client = client ?? http.Client();
 
-  final baseUrl = 'https://jelajah-back-end.sysfdn.repl.co/';
+  final String baseUrl = 'https://jelajah-back-end.sysfdn.repl.co';
+  final Map<String, String> headers = {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+  };
 
   Future<String> registerUser(RegisterModel registerModel) async {
     final response = await _client.post(
-      Uri.parse(baseUrl + 'register'),
-      headers: <String, String>{
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: registerModel.toJson(),
+      Uri.parse(baseUrl + '/register'),
+      headers: headers,
+      body: jsonEncode(registerModel.toJson()),
     );
     if (response.statusCode == 200) {
       final result = RegisterResponse.fromJson(json.decode(response.body));
@@ -33,14 +35,12 @@ class ApiService {
 
   Future<UserModel> loginUser(LoginModel loginModel) async {
     final response = await _client.post(
-      Uri.parse(baseUrl + 'login'),
-      headers: <String, String>{
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: loginModel.toJson(),
+      Uri.parse(baseUrl + '/login'),
+      headers: headers,
+      body: jsonEncode(loginModel.toJson()),
     );
     if (response.statusCode == 200) {
-      final result = await LoginResponse.fromJson(json.decode(response.body));
+      final result = LoginResponse.fromJson(json.decode(response.body));
       final user = UserModel(
           id: result.id,
           fullname: result.fullname,

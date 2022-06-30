@@ -7,16 +7,21 @@ import '../../domain/entity/city_detail.dart';
 import '../../domain/entity/place.dart';
 import '../../domain/entity/plan.dart';
 
-class CardCityExplore extends StatelessWidget {
+class CardCityExplore extends StatefulWidget {
   final City city;
   final int index;
   final int length;
 
-  CardCityExplore(
+  const CardCityExplore(
       {Key? key, required this.city, required this.index, required this.length})
       : super(key: key);
 
-  CityDetail cityDetail = CityDetail(
+  @override
+  State<CardCityExplore> createState() => _CardCityExploreState();
+}
+
+class _CardCityExploreState extends State<CardCityExplore> {
+  CityDetail cityDetail = const CityDetail(
       id: '1',
       name: 'Yogyakarta',
       icon:
@@ -25,11 +30,11 @@ class CardCityExplore extends StatelessWidget {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eros justo, egestas eu eros quis, dapibus viverra tellus. Fusce id dapibus nisl. Etiam libero erat, sagittis ac lectus ac, elementum varius sem. Vestibulum suscipit eros tellus, ut dignissim leo lacinia rutrum. Morbi sollicitudin eget ex blandit tempus.',
       coverImage:
           'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-      planList: const [
+      planList: [
         Plan(id: '1', name: 'Yogyakarta basic plan', status: false),
         Plan(id: '2', name: 'Yogyakarta culinary plan', status: false)
       ],
-      placeList: const [
+      placeList: [
         Place(
             id: '1',
             name: 'Pantai Parangtritis',
@@ -50,7 +55,7 @@ class CardCityExplore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(bottom: 16),
       height: 120,
       decoration: BoxDecoration(
@@ -65,17 +70,17 @@ class CardCityExplore extends StatelessWidget {
       child: InkWell(
         child: Row(
           children: [
-            Image.network(city.icon),
-            SizedBox(
+            Image.network(widget.city.icon),
+            const SizedBox(
               width: 16,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(city.name, style: fontStyle.headline2),
-                SizedBox(height: 8),
-                Text(city.description, style: fontStyle.caption),
+                Text(widget.city.name, style: fontStyle.headline2),
+                const SizedBox(height: 8),
+                Text(widget.city.description, style: fontStyle.caption),
               ],
             )
           ],

@@ -73,8 +73,10 @@ class ConfirmationPage extends StatelessWidget {
                   child: Text('Kirim', style: fontStyle.button),
                   style: primaryButton,
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SentPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SentPage()));
                   },
                 ),
               ],

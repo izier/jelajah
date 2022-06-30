@@ -7,7 +7,7 @@ import 'package:jelajah/presentation/widgets/card_place.dart';
 class PlanDetailPage extends StatelessWidget {
   final PlanDetail planDetail;
 
-  PlanDetailPage({required this.planDetail});
+  const PlanDetailPage({Key? key, required this.planDetail}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class PlanDetailPage extends StatelessWidget {
                   const SizedBox(height: 16),
                   Text('Daftar misi', style: fontStyle.headline2),
                   const SizedBox(height: 8),
-                  Container(
+                  SizedBox(
                     height: 48 * planDetail.missionList.length.toDouble(),
                     child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
@@ -72,7 +72,7 @@ class PlanDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               height: 200,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/presentation/pages/plan_detail_page.dart';
 
 import '../../domain/entity/menu.dart';
 
 class CardMenu extends StatelessWidget {
-  Menu menuItem;
+  final Menu menuItem;
 
-  CardMenu({Key? key, required this.menuItem}) : super(key: key);
+  const CardMenu({Key? key, required this.menuItem}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -12,6 +12,12 @@ class RegisterModel extends Equatable {
     required this.password,
   });
 
+  factory RegisterModel.fromEntity(Register register) => RegisterModel(
+        fullname: register.fullname,
+        username: register.username,
+        password: register.password,
+      );
+
   Map<String, dynamic> toJson() => {
         "fullname": fullname,
         "username": username,

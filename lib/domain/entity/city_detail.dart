@@ -3,15 +3,15 @@ import 'package:jelajah/domain/entity/place.dart';
 import 'package:jelajah/domain/entity/plan.dart';
 
 class CityDetail extends Equatable {
-  String id;
-  String name;
-  String icon;
-  String description;
-  String coverImage;
-  List<Plan> planList;
-  List<Place> placeList;
+  final String id;
+  final String name;
+  final String icon;
+  final String description;
+  final String coverImage;
+  final List<Plan> planList;
+  final List<Place> placeList;
 
-  CityDetail({
+  const CityDetail({
     required this.id,
     required this.name,
     required this.icon,

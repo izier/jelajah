@@ -8,9 +8,9 @@ abstract class RegisterEvent extends Equatable {
 }
 
 class RegisterUserEvent extends RegisterEvent {
-  final RegisterModel user;
+  final Register user;
 
-  const RegisterUserEvent({required this.user});
+  const RegisterUserEvent(this.user);
 
   @override
   List<Object> get props => [user];

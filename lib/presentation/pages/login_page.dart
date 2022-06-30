@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/data/model/login_model.dart';
-import 'package:jelajah/data/model/user.dart';
-import 'package:jelajah/data/service/api_service.dart';
 import 'package:jelajah/data/service/database_service.dart';
+import 'package:jelajah/domain/entity/login.dart';
 import 'package:jelajah/presentation/blocs/login/login_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jelajah/presentation/pages/register_page.dart';
-import 'package:sqflite/sqflite.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -49,30 +46,19 @@ class LoginPageState extends State<LoginPage> {
         body: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) async {
             if (state is LoginLoading) {
-              print(state);
               const SnackBar snackBar = SnackBar(
-                content: Text(
-                  'Masuk ke akun...',
-                ),
+                content: Text('Masuk ke akun...'),
                 backgroundColor: Colors.grey,
                 duration: Duration(seconds: 2),
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else if (state is LoginSuccess) {
-              print(state);
-              final user = state.user;
               const SnackBar snackBar = SnackBar(
-                content: Text(
-                  'Berhasil masuk',
-                ),
+                content: Text('Berhasil masuk'),
                 backgroundColor: Colors.green,
               );
-              db.insert(user);
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else if (state is LoginFailed) {
-              List a = await db.findAll();
-              print(a);
-              print(state);
               SnackBar snackBar = SnackBar(
                 content: Text(state.message),
                 backgroundColor: Colors.red,
@@ -134,11 +120,10 @@ class LoginPageState extends State<LoginPage> {
                       style: primaryButton,
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          LoginModel user = LoginModel(
+                          _loginBloc.add(LoginUserEvent(Login(
                             username: usernameController.text,
                             password: passwordController.text,
-                          );
-                          _loginBloc.add(LoginUserEvent(user: user));
+                          )));
                         } else {
                           const snackBar = SnackBar(
                             content:
@@ -157,10 +142,11 @@ class LoginPageState extends State<LoginPage> {
                           child: Text('Daftar', style: fontStyle.bodyText2),
                           onPressed: () {
                             Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RegisterPage()));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RegisterPage(),
+                              ),
+                            );
                           },
                         )
                       ],

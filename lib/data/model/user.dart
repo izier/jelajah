@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:jelajah/domain/entity/user.dart';
 
 class UserModel extends Equatable {
-  final String id;
+  final int id;
   final String fullname;
   final String username;
   final String password;

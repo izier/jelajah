@@ -11,7 +11,7 @@ class CityDetailModel extends Equatable {
   final List<Plan> planList;
   final List<Place> placeList;
 
-  CityDetailModel({
+  const CityDetailModel({
     required this.id,
     required this.name,
     required this.icon,

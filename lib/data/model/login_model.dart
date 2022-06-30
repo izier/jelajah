@@ -15,7 +15,10 @@ class LoginModel extends Equatable {
         "password": password,
       };
 
-  Login toEntity() => Login(username: username, password: password);
+  factory LoginModel.fromEntity(Login login) => LoginModel(
+        username: login.username,
+        password: login.password,
+      );
 
   @override
   List<Object?> get props => [

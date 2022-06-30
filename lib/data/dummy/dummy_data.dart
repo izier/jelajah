@@ -38,7 +38,7 @@ List<Place> placeList = [
           'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
 ];
 
-CityDetail cityDetail = CityDetail(
+CityDetail cityDetail = const CityDetail(
     id: '1',
     name: 'Yogyakarta',
     icon:
@@ -47,11 +47,11 @@ CityDetail cityDetail = CityDetail(
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eros justo, egestas eu eros quis, dapibus viverra tellus. Fusce id dapibus nisl. Etiam libero erat, sagittis ac lectus ac, elementum varius sem. Vestibulum suscipit eros tellus, ut dignissim leo lacinia rutrum. Morbi sollicitudin eget ex blandit tempus.',
     coverImage:
         'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-    planList: const <Plan>[
+    planList: <Plan>[
       Plan(id: '1', name: 'Yogyakarta basic plan', status: false),
       Plan(id: '2', name: 'Yogyakarta culinary plan', status: false)
     ],
-    placeList: const <Place>[
+    placeList: <Place>[
       Place(
           id: '1',
           name: 'Pantai Parangtritis',
@@ -87,20 +87,20 @@ PlaceDetail placeDetail = const PlaceDetail(
     coverImage:
         'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80');
 
-PlanDetail planDetail = PlanDetail(
+PlanDetail planDetail = const PlanDetail(
     id: '2',
     name: 'Yogyakarta culinary plan',
     category: 1,
     description: 'lorem',
-    missionList: [
+    missionList: <Mission>[
       Mission(
           id: '1',
           name: 'testing misi',
           planName: 'Yogyakarta basic plan',
           planId: '1')
     ],
-    placeList: [
-      new Place(
+    placeList: <Place>[
+      Place(
           id: '1',
           name: 'Yogyakarta',
           coverImage:
