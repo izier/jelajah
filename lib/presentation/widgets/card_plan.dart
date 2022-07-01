@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/data/dummy/dummy_data.dart';
-import 'package:jelajah/domain/entity/plan.dart';
+import 'package:jelajah/data/model/plan.dart';
 import 'package:jelajah/presentation/pages/plan_detail_page.dart';
 
 class CardPlan extends StatelessWidget {
-  final Plan plan;
+  final PlanModel plan;
 
   const CardPlan({Key? key, required this.plan}) : super(key: key);
 
@@ -31,7 +30,7 @@ class CardPlan extends StatelessWidget {
               flex: 1,
               child: Center(
                 child: Text(
-                  '0/' + planDetail.missionList.length.toString(),
+                  '0/' + plan.missions.length.toString(),
                   style: fontStyle.bodyText1,
                 ),
               ),
@@ -51,7 +50,7 @@ class CardPlan extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => PlanDetailPage(
-              planDetail: planDetail,
+              planDetail: plan,
             ),
           ),
         );

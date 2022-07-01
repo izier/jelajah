@@ -3,7 +3,7 @@ import 'package:jelajah/domain/entity/place.dart';
 import 'package:jelajah/domain/entity/plan.dart';
 
 class CityDetail extends Equatable {
-  final String id;
+  final int id;
   final String name;
   final String icon;
   final String description;

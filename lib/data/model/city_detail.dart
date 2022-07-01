@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:jelajah/domain/entity/place.dart';
-import 'package:jelajah/domain/entity/plan.dart';
+import 'package:jelajah/data/model/place.dart';
+import 'package:jelajah/data/model/plan.dart';
 
 class CityDetailModel extends Equatable {
   final String id;
@@ -8,8 +8,8 @@ class CityDetailModel extends Equatable {
   final String icon;
   final String description;
   final String coverImage;
-  final List<Plan> planList;
-  final List<Place> placeList;
+  final List<PlanModel> planList;
+  final List<PlaceModel> placeList;
 
   const CityDetailModel({
     required this.id,

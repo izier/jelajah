@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:jelajah/data/model/plan.dart';
 
 class User extends Equatable {
   final int id;
@@ -6,6 +7,7 @@ class User extends Equatable {
   final String username;
   final String password;
   final int points;
+  final List<PlanModel>? plans;
 
   const User({
     required this.id,
@@ -13,6 +15,7 @@ class User extends Equatable {
     required this.username,
     required this.password,
     required this.points,
+    required this.plans,
   });
 
   @override
@@ -21,5 +24,7 @@ class User extends Equatable {
         fullname,
         username,
         password,
+        points,
+        plans,
       ];
 }

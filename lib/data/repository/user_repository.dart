@@ -1,34 +1,45 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:jelajah/common/constants.dart';
 import 'package:jelajah/common/exception.dart';
 import 'package:jelajah/common/failure.dart';
-
 import 'package:jelajah/data/model/login_model.dart';
+import 'package:jelajah/data/model/plan.dart';
 import 'package:jelajah/data/model/register_model.dart';
 import 'package:jelajah/data/service/api_service.dart';
-import 'package:jelajah/data/service/database_service.dart';
 import 'package:jelajah/domain/entity/login.dart';
 import 'package:jelajah/domain/entity/register.dart';
 import 'package:jelajah/domain/entity/user.dart';
 
 abstract class UserRepository {
+  Future<Either<Failure, User>> getDetail(int id);
   Future<Either<Failure, User>> login(Login login);
   Future<Either<Failure, String>> register(Register register);
-  Future<Either<Failure, User>> saveLocalSession(Login login);
-  Future<Either<Failure, User>> removeLocalSession(Login login);
-  Future<Either<Failure, User>> checkLocalSession();
+  Future<Either<Failure, PlanModel>> addPlan(PlanModel plan);
 }
 
 class UserRepositoryImpl implements UserRepository {
   final ApiService apiService;
-  final DatabaseService databaseService;
 
   const UserRepositoryImpl({
     required this.apiService,
-    required this.databaseService,
   });
+
+  @override
+  Future<Either<Failure, User>> getDetail(int id) async {
+    try {
+      final result = await apiService.findUserById(id);
+      return Right(result.toEntity());
+    } on ServerException {
+      return const Left(
+        ServerFailure('Kombinasi username atau password salah'),
+      );
+    } on SocketException {
+      return const Left(
+          ConnectionFailure('Gagal dalam menghubungkan ke internet'));
+    }
+  }
 
   @override
   Future<Either<Failure, User>> login(Login login) async {
@@ -40,7 +51,8 @@ class UserRepositoryImpl implements UserRepository {
         ServerFailure('Kombinasi username atau password salah'),
       );
     } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
+      return const Left(
+          ConnectionFailure('Gagal dalam menghubungkan ke internet'));
     }
   }
 
@@ -51,28 +63,30 @@ class UserRepositoryImpl implements UserRepository {
         RegisterModel.fromEntity(register),
       );
       if (kDebugMode) print(result);
-      return Right(result);
+      return Right(result.toString());
     } on ServerException {
       return const Left(
         ServerFailure('Username telah terdaftar, pilih username lain'),
       );
     } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
+      return const Left(
+          ConnectionFailure('Gagal dalam menghubungkan ke internet'));
     }
   }
 
   @override
-  Future<Either<Failure, User>> removeLocalSession(Login login) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failure, User>> saveLocalSession(Login login) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failure, User>> checkLocalSession() {
-    throw UnimplementedError();
+  Future<Either<Failure, PlanModel>> addPlan(PlanModel plan) async {
+    try {
+      final result = await apiService.addPlan(plan);
+      Constant.user!.plans!.add(plan);
+      return Right(result);
+    } on ServerException {
+      return const Left(
+        ServerFailure('Terjadi kesalahan'),
+      );
+    } on SocketException {
+      return const Left(
+          ConnectionFailure('Gagal dalam menghubungkan ke internet'));
+    }
   }
 }

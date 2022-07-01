@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jelajah/common/constants.dart';
 import 'package:jelajah/common/theme.dart';
+import 'package:jelajah/presentation/blocs/user/user_bloc.dart';
 import 'package:jelajah/presentation/pages/account_page.dart';
 import 'package:jelajah/presentation/pages/explore_page.dart';
 import 'package:jelajah/presentation/pages/home_page.dart';
@@ -22,6 +25,15 @@ class MainPageState extends State<MainPage> {
   void _onMenuTapped(int index) {
     setState(() {
       _selectedPage = index;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      BlocProvider.of<UserBloc>(context, listen: false)
+          .add(GetUserEvent(Constant.userSession));
     });
   }
 

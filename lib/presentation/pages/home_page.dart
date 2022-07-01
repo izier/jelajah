@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jelajah/data/dummy/dummy_data.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jelajah/common/constants.dart';
+import 'package:jelajah/domain/entity/user.dart';
+import 'package:jelajah/presentation/blocs/city/city_bloc.dart';
+import 'package:jelajah/presentation/blocs/place/place_bloc.dart';
 import 'package:jelajah/presentation/widgets/card_place.dart';
 import 'package:jelajah/presentation/widgets/card_plan.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -16,51 +19,117 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      BlocProvider.of<CityBloc>(context, listen: false).add(GetCityEvent());
+      BlocProvider.of<PlaceBloc>(context, listen: false).add(GetPlaceEvent());
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final user = Constant.user;
+    int percent = 0;
+    String level = 'Penjelajah ';
+    String image = '';
+    int points = user!.points;
+    if (points <= 1000) {
+      image = '1';
+      level += 'Pemula I';
+      percent = 1000;
+    } else if (points <= 2000) {
+      image = '2';
+      level += 'Pemula II';
+      percent = 2000;
+    } else if (points <= 3000) {
+      image = '3';
+      level += 'Pemula III';
+      percent = 3000;
+    } else if (points <= 4000) {
+      image = '4';
+      level += 'Menengah I';
+      percent = 4000;
+    } else if (points <= 5000) {
+      image = '5';
+      level += 'Menengah II';
+      percent = 5000;
+    } else if (points <= 6000) {
+      image = '6';
+      level += 'Menengah III';
+      percent = 6000;
+    } else if (points <= 7000) {
+      image = '7';
+      level += 'Ahli I';
+      percent = 7000;
+    } else if (points <= 8000) {
+      image = '8';
+      level += 'Ahli II';
+      percent = 8000;
+    } else if (points <= 9000) {
+      image = '9';
+      level += 'Ahli III';
+      percent = 9000;
+    } else {
+      image = '10';
+      level += 'Sejati';
+      percent = points;
+    }
     return SingleChildScrollView(
       child: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.only(left: 24),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(left: 24),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('Halo Felisa', style: fontStyle.headline1),
-                    const SizedBox(height: 8),
-                    Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.asset('assets/images/level_2.png', width: 16),
-                        const SizedBox(width: 4),
-                        Text('Penjelajah Pemula II', style: fontStyle.caption),
+                        Text('Halo ' + (user.fullname).split(' ').first,
+                            style: fontStyle.headline1),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/level_$image.png',
+                              width: 16,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(level, style: fontStyle.caption),
+                          ],
+                        )
                       ],
+                    ),
+                    const SizedBox(width: 24),
+                    Expanded(
+                      child: Image.asset('assets/images/home_banner.png'),
                     )
                   ],
                 ),
-                const SizedBox(width: 24),
-                Expanded(child: Image.asset('assets/images/home_banner.png'))
-              ],
-            ),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                LinearPercentIndicator(
-                  padding: const EdgeInsets.all(0),
-                  lineHeight: 4,
-                  percent: 1100 / 2000,
-                  progressColor: Theme.of(context).primaryColor,
-                  barRadius: const Radius.circular(20),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    LinearPercentIndicator(
+                      padding: const EdgeInsets.all(0),
+                      lineHeight: 4,
+                      percent: points / percent,
+                      progressColor: Theme.of(context).primaryColor,
+                      barRadius: const Radius.circular(20),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(points.toString() + '/' + percent.toString() + 'exp',
+                        style: fontStyle.caption),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                Text('1100/2000 exp', style: fontStyle.caption),
-              ],
-            ),
+              ),
+            ],
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -72,36 +141,41 @@ class HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Text('Misi kamu', style: fontStyle.headline2)),
                 const SizedBox(height: 8),
-                SizedBox(
-                  height: 48 * planList.length.toDouble(),
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                    shrinkWrap: true,
-                    itemCount: planList.length,
-                    itemBuilder: (context, index) {
-                      return CardPlan(plan: planList[index]);
-                    },
-                  ),
-                ),
+                _missionBuilder(user),
                 const SizedBox(height: 16),
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Text('Kota terpopuler', style: fontStyle.headline2)),
                 const SizedBox(height: 8),
-                SizedBox(
-                  height: 140,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: cityList.length,
-                    itemBuilder: (context, index) {
-                      return CardCity(
-                          city: cityList[index],
-                          index: index,
-                          length: cityList.length);
-                    },
-                  ),
+                BlocBuilder<CityBloc, CityState>(
+                  builder: ((context, state) {
+                    if (state is CityLoading) {
+                      print(state);
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is CityHasData) {
+                      print(state);
+                      final cities = state.cities;
+                      return SizedBox(
+                        height: 140,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: cities.length,
+                          itemBuilder: (context, index) {
+                            return CardCity(
+                                city: cities[index],
+                                index: index,
+                                length: cities.length);
+                          },
+                        ),
+                      );
+                    } else if (state is CityFailed) {
+                      print(state);
+                      return Text(state.message);
+                    } else {
+                      print(state);
+                      return Container();
+                    }
+                  }),
                 ),
                 const SizedBox(height: 16),
                 Padding(
@@ -109,24 +183,65 @@ class HomePageState extends State<HomePage> {
                   child: Text('Tempat terpopuler', style: fontStyle.headline2),
                 ),
                 const SizedBox(height: 8),
-                SizedBox(
-                  height: 200,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: placeList.length,
-                    itemBuilder: (context, index) {
-                      return CardPlace(
-                          place: placeList[index],
-                          index: index,
-                          length: placeList.length);
-                    },
-                  ),
+                BlocBuilder<PlaceBloc, PlaceState>(
+                  builder: (context, state) {
+                    if (state is PlaceLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is PlaceHasData) {
+                      return SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.places.length,
+                          itemBuilder: (context, index) {
+                            return CardPlace(
+                                place: state.places[index],
+                                index: index,
+                                length: state.places.length);
+                          },
+                        ),
+                      );
+                    } else if (state is PlaceFailed) {
+                      return Text(state.message);
+                    } else {
+                      return Container();
+                    }
+                  },
                 ),
                 const SizedBox(height: 16),
               ],
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+Widget _missionBuilder(User user) {
+  if (user.plans!.isEmpty) {
+    return Center(
+      child: Text(
+        'Anda belum memiliki misi',
+        style: fontStyle.bodyText1,
+      ),
+    );
+  } else {
+    return SizedBox(
+      height: 48 * user.plans!.length.toDouble(),
+      child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+        shrinkWrap: true,
+        itemCount: user.plans!.length,
+        itemBuilder: (context, index) {
+          if (!(user.plans![index].status)) {
+            return CardPlan(plan: user.plans![index]);
+          }
+          return Container();
+        },
       ),
     );
   }

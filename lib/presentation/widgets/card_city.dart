@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/data/dummy/dummy_data.dart';
-import 'package:jelajah/domain/entity/city.dart';
+import 'package:jelajah/data/model/city.dart';
 
 import 'package:jelajah/presentation/pages/city_detail_page.dart';
 
 class CardCity extends StatelessWidget {
-  final City city;
+  final CityModel city;
   final int index;
   final int length;
 
@@ -53,7 +52,7 @@ class CardCity extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => CityDetailPage(
-                cityDetail: cityDetail,
+                cityDetail: city,
               ),
             ),
           );

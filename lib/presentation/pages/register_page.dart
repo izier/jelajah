@@ -20,6 +20,8 @@ class RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
+  bool _passwordVisible1 = false;
+  bool _passwordVisible2 = false;
   @override
   void dispose() {
     super.dispose();
@@ -48,7 +50,6 @@ class RegisterPageState extends State<RegisterPage> {
             const SnackBar snackBar = SnackBar(
               content: Text('Mendaftarkan akun...'),
               backgroundColor: Colors.grey,
-              duration: Duration(seconds: 2),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           } else if (state is RegisterSuccess) {
@@ -121,11 +122,23 @@ class RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      obscureText: true,
+                      obscureText: !_passwordVisible1,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         labelText: 'Password',
                         labelStyle: fontStyle.bodyText1,
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _passwordVisible1 = !_passwordVisible1;
+                            });
+                          },
+                          child: Icon(
+                            _passwordVisible1
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
                       ),
                       controller: passwordController,
                       validator: (password) {
@@ -139,11 +152,23 @@ class RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      obscureText: true,
+                      obscureText: !_passwordVisible2,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         labelText: 'Konfirmasi password',
                         labelStyle: fontStyle.bodyText1,
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _passwordVisible2 = !_passwordVisible2;
+                            });
+                          },
+                          child: Icon(
+                            _passwordVisible2
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
                       ),
                       controller: confirmPasswordController,
                       validator: (confirmPassword) {
@@ -170,6 +195,10 @@ class RegisterPageState extends State<RegisterPage> {
                     ),
                     style: primaryButton,
                     onPressed: () {
+                      setState(() {
+                        _passwordVisible1 = false;
+                        _passwordVisible2 = false;
+                      });
                       if (_formKey.currentState!.validate()) {
                         _registerBloc.add(RegisterUserEvent(
                           Register(

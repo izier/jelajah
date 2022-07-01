@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/domain/entity/place_detail.dart';
+import 'package:jelajah/data/model/place.dart';
 import 'package:jelajah/presentation/widgets/card_plan.dart';
 
 class PlaceDetailPage extends StatelessWidget {
-  final PlaceDetail placeDetail;
+  final PlaceModel placeDetail;
 
   const PlaceDetailPage({Key? key, required this.placeDetail})
       : super(key: key);
@@ -68,14 +68,14 @@ class PlaceDetailPage extends StatelessWidget {
                     Text('Ada di paket misi', style: fontStyle.headline2),
                     const SizedBox(height: 8),
                     SizedBox(
-                      height: 48 * placeDetail.planList.length.toDouble(),
+                      height: 48 * placeDetail.plans.length.toDouble(),
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.symmetric(vertical: 0),
                         shrinkWrap: true,
-                        itemCount: placeDetail.planList.length,
+                        itemCount: placeDetail.plans.length,
                         itemBuilder: (context, index) {
-                          return CardPlan(plan: placeDetail.planList[index]);
+                          return CardPlan(plan: placeDetail.plans[index]);
                         },
                       ),
                     ),

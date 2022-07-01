@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/domain/entity/mission.dart';
+import 'package:jelajah/data/model/mission.dart';
 import 'package:jelajah/presentation/pages/camera_page.dart';
 
 class CardMission extends StatelessWidget {
-  final Mission mission;
+  final MissionModel mission;
   final int index;
 
   const CardMission({
@@ -45,7 +45,7 @@ class CardMission extends StatelessWidget {
               const Expanded(
                 flex: 1,
                 child: Icon(
-                  Icons.photo_camera,
+                  Icons.location_pin,
                 ),
               ),
             ],

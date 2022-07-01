@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jelajah/common/theme.dart';
+import 'package:jelajah/presentation/blocs/city/city_bloc.dart';
 import 'package:jelajah/presentation/widgets/card_city_explore.dart';
-
-import '../../domain/entity/city.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
@@ -11,26 +12,13 @@ class ExplorePage extends StatefulWidget {
 }
 
 class ExplorePageState extends State<ExplorePage> {
-  List<City> cityList = [
-    const City(
-        id: '1',
-        name: 'Yogyakarta',
-        icon:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/500px-Circle_-_black_simple.svg.png',
-        description: 'lorem'),
-    const City(
-        id: '2',
-        name: 'Surabaya',
-        icon:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/500px-Circle_-_black_simple.svg.png',
-        description: 'lorem'),
-    const City(
-        id: '3',
-        name: 'Malang',
-        icon:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/500px-Circle_-_black_simple.svg.png',
-        description: 'lorem'),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      BlocProvider.of<CityBloc>(context, listen: false).add(GetCityEvent());
+    });
+  }
 
   static const colorAbu = Color(0xff8F8F8F);
 
@@ -38,42 +26,38 @@ class ExplorePageState extends State<ExplorePage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.only(left: 24),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Padding(
-                        padding: EdgeInsets.fromLTRB(0, 40, 0, 18),
-                        child: Text('List Kota',
-                            style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700))),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text('List Kota', style: fontStyle.headline1)),
           const SizedBox(height: 8),
-          SizedBox(
-            height: 150 * cityList.length.toDouble(),
-            child: ListView.builder(
-              padding: const EdgeInsets.fromLTRB(24, 16, 25, 0),
-              scrollDirection: Axis.vertical,
-              itemCount: cityList.length,
-              itemBuilder: (context, index) {
-                return CardCityExplore(
-                    city: cityList[index],
-                    index: index,
-                    length: cityList.length);
-              },
-            ),
-          ),
+          BlocBuilder<CityBloc, CityState>(
+            builder: (context, state) {
+              if (state is CityLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is CityHasData) {
+                return SizedBox(
+                  height: 150 * state.cities.length.toDouble(),
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    scrollDirection: Axis.vertical,
+                    itemCount: state.cities.length,
+                    itemBuilder: (context, index) {
+                      return CardCityExplore(
+                          city: state.cities[index],
+                          index: index,
+                          length: state.cities.length);
+                    },
+                  ),
+                );
+              } else if (state is CityFailed) {
+                return Text(state.message);
+              } else {
+                return Container();
+              }
+            },
+          )
         ],
       ),
     );

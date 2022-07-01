@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/data/dummy/dummy_data.dart';
-import 'package:jelajah/domain/entity/place.dart';
+import 'package:jelajah/data/model/place.dart';
 import 'package:jelajah/presentation/pages/place_detail_page.dart';
 
 class CardPlace extends StatelessWidget {
-  final Place place;
+  final PlaceModel place;
   final int index;
   final int length;
 
@@ -71,7 +70,7 @@ class CardPlace extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => PlaceDetailPage(
-                placeDetail: placeDetail,
+                placeDetail: place,
               ),
             ),
           );

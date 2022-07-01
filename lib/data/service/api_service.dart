@@ -1,19 +1,23 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:jelajah/common/constants.dart';
 import 'package:jelajah/common/exception.dart';
+import 'package:jelajah/data/model/city.dart';
 import 'package:jelajah/data/model/login_model.dart';
 import 'package:jelajah/data/model/login_response.dart';
+import 'package:jelajah/data/model/plan.dart';
 import 'package:jelajah/data/model/register_model.dart';
 import 'package:jelajah/data/model/register_response.dart';
 import 'package:jelajah/data/model/user.dart';
+import 'package:jelajah/data/model/place.dart';
 
 class ApiService {
   final http.Client _client;
 
   ApiService({http.Client? client}) : _client = client ?? http.Client();
 
-  final String baseUrl = 'https://jelajah-back-end.sysfdn.repl.co';
+  final String baseUrl = 'https://jelajah-back-end.izier.repl.co';
   final Map<String, String> headers = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
@@ -42,18 +46,113 @@ class ApiService {
     if (response.statusCode == 200) {
       final result = LoginResponse.fromJson(json.decode(response.body));
       final user = UserModel(
-          id: result.id,
-          fullname: result.fullname,
-          username: result.username,
-          password: result.password,
-          points: result.points);
+        id: result.id,
+        fullname: result.fullname,
+        username: result.username,
+        password: result.password,
+        points: result.points,
+        plans: const [],
+      );
       return user;
     } else {
       throw ServerException();
     }
   }
 
-  Future findUserById(String id) async {
-    await _client.get(Uri.parse(baseUrl + 'users/' + id));
+  Future<PlanModel> addPlan(PlanModel plan) async {
+    final response = await _client.post(
+      Uri.parse(
+          baseUrl + '/users/' + Constant.userSession.toString() + '/plans'),
+      headers: headers,
+      body: jsonEncode(plan.toJson()),
+    );
+    if (response.statusCode == 200) {
+      final result = plan;
+      return result;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<UserModel> findUserById(int id) async {
+    final response =
+        await _client.get(Uri.parse(baseUrl + '/users/' + id.toString()));
+    if (response.statusCode == 200) {
+      final result = UserModel.fromJson(json.decode(response.body));
+      return result;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<List<CityModel>> findAllCities() async {
+    final response = await _client.get(Uri.parse(baseUrl + '/cities'));
+    if (response.statusCode == 200) {
+      return List<CityModel>.from(
+          json.decode(response.body).map((x) => CityModel.fromJson(x)));
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<CityModel> findCityById(int id) async {
+    final response =
+        await _client.get(Uri.parse(baseUrl + '/cities/' + id.toString()));
+    if (response.statusCode == 200) {
+      final result = CityModel.fromJson(json.decode(response.body));
+      return result;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<List<PlaceModel>> findAllPlaces() async {
+    final response = await _client.get(Uri.parse(baseUrl + '/places'));
+    if (response.statusCode == 200) {
+      return List<PlaceModel>.from(
+          json.decode(response.body).map((x) => PlaceModel.fromJson(x)));
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<PlaceModel> findPlaceById(int id) async {
+    final response =
+        await _client.get(Uri.parse(baseUrl + '/places/' + id.toString()));
+    if (response.statusCode == 200) {
+      return PlaceModel.fromJson(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<List<PlanModel>> findAllPlans() async {
+    final response = await _client.get(Uri.parse(baseUrl + '/places'));
+    if (response.statusCode == 200) {
+      return List<PlanModel>.from(
+          json.decode(response.body).map((x) => PlanModel.fromJson(x)));
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<PlanModel> findPlanById(int id) async {
+    final response =
+        await _client.get(Uri.parse(baseUrl + '/places/' + id.toString()));
+    if (response.statusCode == 200) {
+      return PlanModel.fromJson(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<PlanModel> uploadPlan(int id) async {
+    final response =
+        await _client.get(Uri.parse(baseUrl + '/places/' + id.toString()));
+    if (response.statusCode == 200) {
+      return PlanModel.fromJson(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
   }
 }

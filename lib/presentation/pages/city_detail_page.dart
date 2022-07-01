@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/domain/entity/city_detail.dart';
+import 'package:jelajah/data/model/city.dart';
 import 'package:jelajah/presentation/widgets/card_place.dart';
 import 'package:jelajah/presentation/widgets/card_plan.dart';
 
 class CityDetailPage extends StatelessWidget {
-  final CityDetail cityDetail;
+  final CityModel cityDetail;
 
   const CityDetailPage({Key? key, required this.cityDetail}) : super(key: key);
 
@@ -58,14 +58,14 @@ class CityDetailPage extends StatelessWidget {
                     Text('Paket misi tersedia', style: fontStyle.headline2),
                     const SizedBox(height: 8),
                     SizedBox(
-                      height: 48 * cityDetail.planList.length.toDouble(),
+                      height: 48 * cityDetail.plans.length.toDouble(),
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.symmetric(vertical: 0),
                         shrinkWrap: true,
-                        itemCount: cityDetail.planList.length,
+                        itemCount: cityDetail.plans.length,
                         itemBuilder: (context, index) {
-                          return CardPlan(plan: cityDetail.planList[index]);
+                          return CardPlan(plan: cityDetail.plans[index]);
                         },
                       ),
                     ),
@@ -78,12 +78,12 @@ class CityDetailPage extends StatelessWidget {
                 height: 200,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: cityDetail.placeList.length,
+                  itemCount: cityDetail.places.length,
                   itemBuilder: (context, index) {
                     return CardPlace(
-                        place: cityDetail.placeList[index],
+                        place: cityDetail.places[index],
                         index: index,
-                        length: cityDetail.placeList.length);
+                        length: cityDetail.places.length);
                   },
                 ),
               ),

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
+import 'package:jelajah/data/model/city.dart';
 import 'package:jelajah/presentation/pages/city_detail_page.dart';
 
-import '../../domain/entity/city.dart';
-import '../../domain/entity/city_detail.dart';
-import '../../domain/entity/place.dart';
-import '../../domain/entity/plan.dart';
-
 class CardCityExplore extends StatefulWidget {
-  final City city;
+  final CityModel city;
   final int index;
   final int length;
 
@@ -21,37 +17,6 @@ class CardCityExplore extends StatefulWidget {
 }
 
 class _CardCityExploreState extends State<CardCityExplore> {
-  CityDetail cityDetail = const CityDetail(
-      id: '1',
-      name: 'Yogyakarta',
-      icon:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/500px-Circle_-_black_simple.svg.png',
-      description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eros justo, egestas eu eros quis, dapibus viverra tellus. Fusce id dapibus nisl. Etiam libero erat, sagittis ac lectus ac, elementum varius sem. Vestibulum suscipit eros tellus, ut dignissim leo lacinia rutrum. Morbi sollicitudin eget ex blandit tempus.',
-      coverImage:
-          'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-      planList: [
-        Plan(id: '1', name: 'Yogyakarta basic plan', status: false),
-        Plan(id: '2', name: 'Yogyakarta culinary plan', status: false)
-      ],
-      placeList: [
-        Place(
-            id: '1',
-            name: 'Pantai Parangtritis',
-            coverImage:
-                'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
-        Place(
-            id: '1',
-            name: 'Pantai Parangtritis',
-            coverImage:
-                'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
-        Place(
-            id: '1',
-            name: 'Pantai Parangtritis',
-            coverImage:
-                'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
-      ]);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,6 +34,7 @@ class _CardCityExploreState extends State<CardCityExplore> {
           ]),
       child: InkWell(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Image.network(widget.city.icon),
             const SizedBox(
@@ -80,7 +46,16 @@ class _CardCityExploreState extends State<CardCityExplore> {
               children: [
                 Text(widget.city.name, style: fontStyle.headline2),
                 const SizedBox(height: 8),
-                Text(widget.city.description, style: fontStyle.caption),
+                SizedBox(
+                  width: 200,
+                  child: Text(
+                    widget.city.description,
+                    style: fontStyle.caption,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                  ),
+                )
               ],
             )
           ],
@@ -89,7 +64,7 @@ class _CardCityExploreState extends State<CardCityExplore> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CityDetailPage(cityDetail: cityDetail)),
+                builder: (context) => CityDetailPage(cityDetail: widget.city)),
           );
         },
       ),

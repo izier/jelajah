@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:jelajah/common/constants.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/data/service/database_service.dart';
+import 'package:jelajah/data/service/shared_preference_service.dart';
 import 'package:jelajah/domain/entity/login.dart';
 import 'package:jelajah/presentation/blocs/login/login_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jelajah/presentation/pages/main_page.dart';
 import 'package:jelajah/presentation/pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,9 +19,10 @@ class LoginPageState extends State<LoginPage> {
   late LoginBloc _loginBloc;
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  final db = DatabaseService();
 
   final _formKey = GlobalKey<FormState>();
+
+  bool _passwordVisible = false;
 
   @override
   void dispose() {
@@ -49,7 +52,6 @@ class LoginPageState extends State<LoginPage> {
               const SnackBar snackBar = SnackBar(
                 content: Text('Masuk ke akun...'),
                 backgroundColor: Colors.grey,
-                duration: Duration(seconds: 2),
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else if (state is LoginSuccess) {
@@ -58,6 +60,14 @@ class LoginPageState extends State<LoginPage> {
                 backgroundColor: Colors.green,
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              final prefs = SharedPreferenceService();
+              prefs.setUserSession(state.user.id);
+              prefs.setAuthenticated(true);
+              Constant.user = state.user;
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MainPage()),
+                  (route) => false);
             } else if (state is LoginFailed) {
               SnackBar snackBar = SnackBar(
                 content: Text(state.message),
@@ -96,10 +106,22 @@ class LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
-                        obscureText: true,
+                        obscureText: !_passwordVisible,
                         decoration: InputDecoration(
                           labelText: 'Password',
                           labelStyle: fontStyle.bodyText1,
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            },
+                            child: Icon(
+                              _passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                          ),
                         ),
                         controller: passwordController,
                         validator: (password) {
@@ -119,6 +141,9 @@ class LoginPageState extends State<LoginPage> {
                       child: Text('Masuk', style: fontStyle.button),
                       style: primaryButton,
                       onPressed: () {
+                        setState(() {
+                          _passwordVisible = false;
+                        });
                         if (_formKey.currentState!.validate()) {
                           _loginBloc.add(LoginUserEvent(Login(
                             username: usernameController.text,

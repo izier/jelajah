@@ -12,8 +12,7 @@ class CardMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         child: Container(
-          padding: const EdgeInsets.fromLTRB(40, 16, 0, 0),
-          margin: const EdgeInsets.only(bottom: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           height: 40,
           child: Row(
             children: [
