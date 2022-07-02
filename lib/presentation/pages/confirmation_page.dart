@@ -4,9 +4,14 @@ import 'package:jelajah/data/model/mission.dart';
 import 'package:jelajah/presentation/pages/sent_page.dart';
 
 class ConfirmationPage extends StatelessWidget {
+  final String pathFile;
   final MissionModel mission;
 
-  const ConfirmationPage({Key? key, required this.mission}) : super(key: key);
+  const ConfirmationPage({
+    Key? key,
+    required this.mission,
+    required this.pathFile,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +33,10 @@ class ConfirmationPage extends StatelessWidget {
                     child: Text(mission.name, style: fontStyle.headline1)),
                 const SizedBox(width: 16),
                 Expanded(
-                    child: Image.network(
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/500px-Circle_-_black_simple.svg.png'))
+                  child: Image.network(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/500px-Circle_-_black_simple.svg.png',
+                  ),
+                )
               ],
             ),
             Expanded(
@@ -46,8 +53,8 @@ class ConfirmationPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      'https://images.unsplash.com/photo-1606820031302-d26dcd6b8990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+                    child: Image.asset(
+                      pathFile,
                       height: MediaQuery.of(context).size.height / 3,
                       width: MediaQuery.of(context).size.width - 48,
                       fit: BoxFit.cover,
@@ -77,9 +84,11 @@ class ConfirmationPage extends StatelessWidget {
                   style: primaryButton,
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SentPage()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SentPage(),
+                      ),
+                    );
                   },
                 ),
               ],

@@ -64,3 +64,21 @@ class UpdateMissionFailed extends UserState {
   @override
   List<Object> get props => [message];
 }
+
+class UploadPhotoSuccess extends UserState {
+  final String message;
+
+  const UploadPhotoSuccess(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
+class UploadPhotoFailed extends UserState {
+  final String message;
+
+  const UploadPhotoFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+}

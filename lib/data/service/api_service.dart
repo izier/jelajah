@@ -92,6 +92,17 @@ class ApiService {
     }
   }
 
+  Future<String> uploadPhotos(String paths, int userId, int missionId) async {
+    Uri uri =
+        Uri.parse(baseUrl + "/users/{$userId}/missions/{$missionId}/image");
+    http.MultipartRequest request = http.MultipartRequest('POST', uri);
+    request.files.add(await http.MultipartFile.fromPath('files', paths));
+    http.StreamedResponse response = await request.send();
+    var responseBytes = await response.stream.toBytes();
+    var responseString = utf8.decode(responseBytes);
+    return responseString;
+  }
+
   Future<UserModel> findUserById(int id) async {
     final response =
         await _client.get(Uri.parse(baseUrl + '/users/' + id.toString()));

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jelajah/common/theme.dart';
+import 'package:jelajah/presentation/blocs/user/user_bloc.dart';
 
 class SentPage extends StatelessWidget {
   const SentPage({Key? key}) : super(key: key);
@@ -18,18 +20,33 @@ class SentPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Foto terkirim', style: fontStyle.headline1),
+            BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state is UploadPhotoSuccess) {
+                  Text('Foto terkirim', style: fontStyle.headline1);
+                } else if (state is UploadPhotoFailed) {
+                  Text('Ada kesalahan', style: fontStyle.headline1);
+                } else {
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Container();
+              },
+            ),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset('assets/images/sent_banner.png')),
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset('assets/images/sent_banner.png'),
+                  ),
                   const SizedBox(height: 8),
                   Text(
-                      'Tunggu konfirmasi validasi foto dari kami (sekitar 1 - 2 jam setelah pengiriman).',
-                      style: fontStyle.caption)
+                    'Tunggu konfirmasi validasi foto dari kami (sekitar 1 - 2 jam setelah pengiriman).',
+                    style: fontStyle.caption,
+                  )
                 ],
               ),
             ),

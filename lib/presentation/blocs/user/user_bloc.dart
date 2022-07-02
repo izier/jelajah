@@ -46,5 +46,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(UpdateMissionSuccess(message));
       });
     });
+
+    on<UploadImageEvent>((event, emit) async {
+      emit(UserLoading());
+
+      final result = await userRepository.uploadPhoto(
+        event.path,
+        event.userId,
+        event.missionId,
+      );
+
+      result.fold((failure) {
+        emit(UploadPhotoFailed(failure.message));
+      }, (message) {
+        emit(UploadPhotoSuccess(message));
+      });
+    });
   }
 }
