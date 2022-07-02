@@ -56,7 +56,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
