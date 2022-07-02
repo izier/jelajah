@@ -8,7 +8,7 @@ class UserModel extends Equatable {
   final String username;
   final String password;
   final int points;
-  final List<PlanModel> plans;
+  final List<PlanModel>? plans;
 
   const UserModel(
       {required this.id,

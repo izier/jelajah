@@ -9,7 +9,7 @@ class LoginResponse extends Equatable {
   final String password;
   final int id;
   final int points;
-  final List<PlanModel> plans;
+  final List<PlanModel>? plans;
 
   const LoginResponse({
     required this.status,
@@ -30,7 +30,8 @@ class LoginResponse extends Equatable {
         password: json["user"]["password"],
         id: json["user"]["id"],
         points: json["user"]["points"],
-        plans: json["user"]["plans"],
+        plans: List<PlanModel>.from(
+            json["user"]["plans"].map((x) => PlanModel.fromJson(x))),
       );
 
   @override

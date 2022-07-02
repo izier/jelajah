@@ -56,8 +56,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
-        child: Container(
-          height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -100,7 +99,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                         const SizedBox(height: 8),
                         SizedBox(
                           height:
-                              48 * widget.planDetail.missions.length.toDouble(),
+                              72 * widget.planDetail.missions.length.toDouble(),
                           child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,

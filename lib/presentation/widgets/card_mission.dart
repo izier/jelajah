@@ -19,7 +19,7 @@ class CardMission extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(8),
           margin: const EdgeInsets.only(bottom: 8),
-          height: 40,
+          height: 64,
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
