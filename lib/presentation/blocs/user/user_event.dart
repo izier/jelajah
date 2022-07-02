@@ -33,3 +33,18 @@ class UpdateMissionEvent extends UserEvent {
   @override
   List<Object> get props => [mission];
 }
+
+class UploadImageEvent extends UserEvent {
+  final String path;
+  final int userId;
+  final int missionId;
+
+  const UploadImageEvent(this.path, this.userId, this.missionId);
+
+  @override
+  List<Object> get props => [
+        path,
+        userId,
+        missionId,
+      ];
+}

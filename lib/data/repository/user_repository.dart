@@ -18,6 +18,11 @@ abstract class UserRepository {
   Future<Either<Failure, String>> register(Register register);
   Future<Either<Failure, PlanModel>> addPlan(PlanModel plan);
   Future<Either<Failure, String>> updateMission(MissionModel mission);
+  Future<Either<Failure, String>> uploadPhoto(
+    String path,
+    int userId,
+    int missionId,
+  );
 }
 
 class UserRepositoryImpl implements UserRepository {
@@ -38,7 +43,8 @@ class UserRepositoryImpl implements UserRepository {
       );
     } on SocketException {
       return const Left(
-          ConnectionFailure('Gagal dalam menghubungkan ke internet'));
+        ConnectionFailure('Gagal dalam menghubungkan ke internet'),
+      );
     }
   }
 
@@ -53,7 +59,8 @@ class UserRepositoryImpl implements UserRepository {
       );
     } on SocketException {
       return const Left(
-          ConnectionFailure('Gagal dalam menghubungkan ke internet'));
+        ConnectionFailure('Gagal dalam menghubungkan ke internet'),
+      );
     }
   }
 
@@ -71,7 +78,8 @@ class UserRepositoryImpl implements UserRepository {
       );
     } on SocketException {
       return const Left(
-          ConnectionFailure('Gagal dalam menghubungkan ke internet'));
+        ConnectionFailure('Gagal dalam menghubungkan ke internet'),
+      );
     }
   }
 
@@ -86,7 +94,25 @@ class UserRepositoryImpl implements UserRepository {
       );
     } on SocketException {
       return const Left(
-          ConnectionFailure('Gagal dalam menghubungkan ke internet'));
+        ConnectionFailure('Gagal dalam menghubungkan ke internet'),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> uploadPhoto(
+      String path, int userId, int missionId) async {
+    try {
+      final result = await apiService.uploadPhotos(path, userId, missionId);
+      return Right(result);
+    } on ServerException {
+      return const Left(
+        ServerFailure('Terjadi kesalahan'),
+      );
+    } on SocketException {
+      return const Left(
+        ConnectionFailure('Gagal dalam menghubungkan ke internet'),
+      );
     }
   }
 
@@ -102,7 +128,8 @@ class UserRepositoryImpl implements UserRepository {
       );
     } on SocketException {
       return const Left(
-          ConnectionFailure('Gagal dalam menghubungkan ke internet'));
+        ConnectionFailure('Gagal dalam menghubungkan ke internet'),
+      );
     }
   }
 }
