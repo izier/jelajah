@@ -5,6 +5,7 @@ import 'package:jelajah/common/theme.dart';
 import 'package:jelajah/data/model/plan.dart';
 import 'package:jelajah/domain/entity/user.dart';
 import 'package:jelajah/presentation/blocs/user/user_bloc.dart';
+import 'package:jelajah/presentation/widgets/card_clear_mission.dart';
 import 'package:jelajah/presentation/widgets/card_mission.dart';
 
 class PlanDetailPage extends StatefulWidget {
@@ -19,6 +20,19 @@ class PlanDetailPage extends StatefulWidget {
 class _PlanDetailPageState extends State<PlanDetailPage> {
   @override
   Widget build(BuildContext context) {
+    PlanModel planFix = widget.planDetail;
+    BlocBuilder<UserBloc, UserState>(
+      builder: ((context, state) {
+        if (state is UserHasData) {
+          final plan = state.user.plans!
+              .where((element) => element.name == widget.planDetail.name);
+          if (plan.isNotEmpty) {
+            planFix = plan.first;
+          }
+        }
+        return Container();
+      }),
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -27,7 +41,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
       ),
       body: BlocListener<UserBloc, UserState>(
         listener: (context, state) {
-          if (state is UserLoading) {
+          if (state is AddLoading) {
             const SnackBar snackBar = SnackBar(
               content: Text('Menambahkan plan'),
               backgroundColor: Colors.grey,
@@ -36,7 +50,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
           } else if (state is AddSuccess) {
             const SnackBar snackBar = SnackBar(
               content: Text('Plan berhasil ditambahkan'),
-              backgroundColor: Colors.green,
+              backgroundColor: Color.fromARGB(255, 143, 160, 143),
             );
             BlocProvider.of<UserBloc>(context, listen: false)
                 .add(GetUserEvent(Constant.userSession));
@@ -98,8 +112,15 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                             shrinkWrap: true,
                             itemCount: widget.planDetail.missions.length,
                             itemBuilder: (context, index) {
+                              if (planFix.missions[index].status) {
+                                return CardClearMission(
+                                  mission: planFix.missions[index],
+                                  index: index,
+                                );
+                              }
                               return CardMission(
-                                  mission: widget.planDetail.missions[index],
+                                  iconUrl: widget.planDetail.category,
+                                  mission: planFix.missions[index],
                                   index: index);
                             },
                           ),
@@ -112,8 +133,8 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                     builder: (context, state) {
                       if (state is UserHasData) {
                         User user = state.user;
-                        var plan = user.plans!.where(
-                            (element) => element.id == widget.planDetail.id);
+                        var plan = user.plans!.where((element) =>
+                            element.name == widget.planDetail.name);
                         bool isAdded = plan.isEmpty ? false : true;
                         return Padding(
                           padding: const EdgeInsets.all(24.0),

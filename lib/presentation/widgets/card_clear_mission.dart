@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/data/model/plan.dart';
-import 'package:jelajah/presentation/pages/plan_detail_page.dart';
+import 'package:jelajah/data/model/mission.dart';
 
 class CardClearMission extends StatefulWidget {
-  final PlanModel plan;
+  final MissionModel mission;
+  final int index;
 
   static const colorBiru = Color(0xff2F80ED);
   static const colorMerah = Color(0xffED1C24);
 
-  const CardClearMission({Key? key, required this.plan}) : super(key: key);
+  const CardClearMission({Key? key, required this.mission, required this.index})
+      : super(key: key);
 
   @override
   State<CardClearMission> createState() => _CardClearMissionState();
 }
 
 class _CardClearMissionState extends State<CardClearMission> {
-  PlanModel? planDetail;
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
         padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.only(bottom: 8),
-        height: 40,
+        height: 64,
         decoration: BoxDecoration(
             border: Border.all(
               color: CardClearMission.colorBiru,
@@ -42,27 +41,22 @@ class _CardClearMissionState extends State<CardClearMission> {
         child: Row(
           children: [
             Expanded(
-              flex: 1,
-              child: Center(
-                child: Text('1/' + planDetail!.missions.length.toString(),
-                    style: fontStyle.bodyText1),
-              ),
+                flex: 1,
+                child: Center(
+                  child: Text((widget.index + 1).toString() + '.',
+                      style: fontStyle.bodyText1),
+                )),
+            Expanded(
+              flex: 6,
+              child: Text(widget.mission.name, style: fontStyle.bodyText1),
             ),
             Expanded(
-              flex: 4,
-              child: Text(widget.plan.name, style: fontStyle.bodyText1),
-            )
+              flex: 1,
+              child: Icon(Icons.check, color: Theme.of(context).primaryColor),
+            ),
           ],
         ),
       ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PlanDetailPage(planDetail: planDetail!),
-          ),
-        );
-      },
     );
   }
 }

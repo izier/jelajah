@@ -24,7 +24,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
 
     on<AddPlanEvent>((event, emit) async {
-      emit(UserLoading());
+      emit(AddLoading());
 
       final result = await userRepository.addPlan(event.plan);
 
@@ -36,7 +36,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
 
     on<UpdateMissionEvent>((event, emit) async {
-      emit(UserLoading());
+      emit(UpdateLoading());
 
       final result = await userRepository.updateMission(event.mission);
 
@@ -48,7 +48,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
 
     on<UploadImageEvent>((event, emit) async {
-      emit(UserLoading());
+      emit(UploadLoading());
 
       final result = await userRepository.uploadPhoto(
         event.path,

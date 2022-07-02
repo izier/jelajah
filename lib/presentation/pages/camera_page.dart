@@ -1,14 +1,20 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:jelajah/common/theme.dart';
 import 'package:jelajah/data/model/mission.dart';
 
 import 'package:jelajah/presentation/pages/confirmation_page.dart';
 
 class CameraPage extends StatefulWidget {
-  final CameraDescription? camera;
+  final CameraDescription camera;
   final MissionModel mission;
+  final String iconUrl;
 
-  const CameraPage({Key? key, required this.camera, required this.mission})
+  const CameraPage(
+      {Key? key,
+      required this.camera,
+      required this.mission,
+      required this.iconUrl})
       : super(key: key);
 
   @override
@@ -24,14 +30,16 @@ class _CameraPageState extends State<CameraPage> {
     super.initState();
 
     _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
-      widget.camera as CameraDescription,
-      // Define the resolution to use.
+      widget.camera,
       ResolutionPreset.medium,
     );
-
-    // Next, initialize the controller. This returns a Future.
     _initializeControllerFuture = _controller.initialize();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   Future<XFile?> takePicture() async {
@@ -50,8 +58,14 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Take picture'),
+        title: Text(
+          'Take picture',
+          style: fontStyle.headline1,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -60,6 +74,7 @@ class _CameraPageState extends State<CameraPage> {
             context,
             MaterialPageRoute(
               builder: (context) => ConfirmationPage(
+                iconUrl: widget.iconUrl,
                 mission: widget.mission,
                 pathFile: file!.path,
               ),
@@ -68,17 +83,18 @@ class _CameraPageState extends State<CameraPage> {
         },
         child: const Icon(Icons.camera_alt),
       ),
-      body: FutureBuilder<void>(
-        future: _initializeControllerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // If the Future is complete, display the preview.
-            return CameraPreview(_controller);
-          } else {
-            // Otherwise, display a loading indicator.
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: FutureBuilder<void>(
+          future: _initializeControllerFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return CameraPreview(_controller);
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
       ),
     );
   }

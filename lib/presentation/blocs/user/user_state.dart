@@ -29,6 +29,8 @@ class UserFailed extends UserState {
   List<Object> get props => [message];
 }
 
+class AddLoading extends UserState {}
+
 class AddSuccess extends UserState {
   final PlanModel plan;
 
@@ -47,6 +49,8 @@ class AddFailed extends UserState {
   List<Object> get props => [message];
 }
 
+class UpdateLoading extends UserState {}
+
 class UpdateMissionSuccess extends UserState {
   final String message;
 
@@ -64,6 +68,8 @@ class UpdateMissionFailed extends UserState {
   @override
   List<Object> get props => [message];
 }
+
+class UploadLoading extends UserState {}
 
 class UploadPhotoSuccess extends UserState {
   final String message;

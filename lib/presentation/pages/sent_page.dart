@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/presentation/blocs/user/user_bloc.dart';
 
 class SentPage extends StatelessWidget {
   const SentPage({Key? key}) : super(key: key);
@@ -20,20 +18,7 @@ class SentPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            BlocBuilder<UserBloc, UserState>(
-              builder: (context, state) {
-                if (state is UploadPhotoSuccess) {
-                  Text('Foto terkirim', style: fontStyle.headline1);
-                } else if (state is UploadPhotoFailed) {
-                  Text('Ada kesalahan', style: fontStyle.headline1);
-                } else {
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return Container();
-              },
-            ),
+            Text('Foto terkirim', style: fontStyle.headline1),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jelajah/data/model/plan.dart';
 import 'package:jelajah/domain/entity/user.dart';
 import 'package:jelajah/presentation/blocs/city/city_bloc.dart';
 import 'package:jelajah/presentation/blocs/place/place_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:jelajah/presentation/widgets/card_place.dart';
 import 'package:jelajah/presentation/widgets/card_plan.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:jelajah/common/theme.dart';
+import 'package:jelajah/common/constants.dart';
 import 'package:jelajah/presentation/widgets/card_city.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +20,15 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      BlocProvider.of<UserBloc>(context, listen: false)
+          .add(GetUserEvent(Constant.userSession));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -40,7 +51,7 @@ class HomePageState extends State<HomePage> {
                                   child: CircularProgressIndicator());
                             } else if (state is UserHasData) {
                               return Text(
-                                  'Halo ' +
+                                  'Halo, ' +
                                       (state.user.fullname).split(' ').first +
                                       '!',
                                   style: fontStyle.headline1);
@@ -197,12 +208,10 @@ class HomePageState extends State<HomePage> {
                 BlocBuilder<PlaceBloc, PlaceState>(
                   builder: (context, state) {
                     if (state is PlaceLoading) {
-                      print(state);
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
                     } else if (state is PlaceHasData) {
-                      print(state);
                       return SizedBox(
                         height: 200,
                         child: ListView.builder(
@@ -217,10 +226,8 @@ class HomePageState extends State<HomePage> {
                         ),
                       );
                     } else if (state is PlaceFailed) {
-                      print(state);
                       return Text(state.message);
                     } else {
-                      print(state);
                       return Container();
                     }
                   },
@@ -236,26 +243,32 @@ class HomePageState extends State<HomePage> {
 }
 
 Widget _missionBuilder(User user) {
-  if (user.plans!.isEmpty) {
+  List<PlanModel>? planFix = user.plans;
+  int counter = 0;
+  for (int i = 0; i < user.plans!.length; i++) {
+    var missions = user.plans![i].missions.where((element) => element.status);
+    if (missions.length == user.plans![i].missions.length) {
+      planFix!.removeAt(i - counter);
+      counter++;
+    }
+  }
+  if (planFix!.isEmpty) {
     return Center(
       child: Text(
-        'Anda belum memiliki misi',
+        'Anda belum memiliki paket misi aktif',
         style: fontStyle.bodyText1,
       ),
     );
   } else {
     return SizedBox(
-      height: 48 * user.plans!.length.toDouble(),
+      height: 48 * planFix.length.toDouble(),
       child: ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
         shrinkWrap: true,
-        itemCount: user.plans!.length,
+        itemCount: planFix.length,
         itemBuilder: (context, index) {
-          if (!(user.plans![index].status)) {
-            return CardPlan(plan: user.plans![index]);
-          }
-          return Container();
+          return CardPlan(plan: planFix[index]);
         },
       ),
     );

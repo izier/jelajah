@@ -96,7 +96,7 @@ class ApiService {
     Uri uri =
         Uri.parse(baseUrl + "/users/{$userId}/missions/{$missionId}/image");
     http.MultipartRequest request = http.MultipartRequest('POST', uri);
-    request.files.add(await http.MultipartFile.fromPath('files', paths));
+    request.files.add(await http.MultipartFile.fromPath('image', paths));
     http.StreamedResponse response = await request.send();
     var responseBytes = await response.stream.toBytes();
     var responseString = utf8.decode(responseBytes);
