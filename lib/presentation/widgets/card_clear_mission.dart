@@ -16,48 +16,53 @@ class CardClearMission extends StatefulWidget {
 }
 
 class _CardClearMissionState extends State<CardClearMission> {
-  PlanModel? planDetail = null;
+  PlanModel? planDetail;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          margin: const EdgeInsets.only(bottom: 8),
-          height: 40,
-          decoration: BoxDecoration(
-              border: Border.all(
-                color: CardClearMission.colorBiru,
-                style: BorderStyle.solid,
-                width: 2.0,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.only(bottom: 8),
+        height: 40,
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: CardClearMission.colorBiru,
+              style: BorderStyle.solid,
+              width: 2.0,
+            ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                  color: CardClearMission.colorBiru.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 4))
+            ]),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: Text('1/' + planDetail!.missions.length.toString(),
+                    style: fontStyle.bodyText1),
               ),
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                    color: CardClearMission.colorBiru.withOpacity(0.1),
-                    blurRadius: 4,
-                    offset: const Offset(0, 4))
-              ]),
-          child: Row(
-            children: [
-              Expanded(
-                  flex: 1,
-                  child: Center(
-                      child: Text('1/' + planDetail!.missions.length.toString(),
-                          style: fontStyle.bodyText1))),
-              Expanded(
-                  flex: 4,
-                  child: Text(widget.plan.name, style: fontStyle.bodyText1))
-            ],
-          ),
+            ),
+            Expanded(
+              flex: 4,
+              child: Text(widget.plan.name, style: fontStyle.bodyText1),
+            )
+          ],
         ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PlanDetailPage(planDetail: planDetail!)),
-          );
-        });
+      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlanDetailPage(planDetail: planDetail!),
+          ),
+        );
+      },
+    );
   }
 }

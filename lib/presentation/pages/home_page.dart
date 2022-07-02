@@ -150,10 +150,8 @@ class HomePageState extends State<HomePage> {
                 BlocBuilder<CityBloc, CityState>(
                   builder: ((context, state) {
                     if (state is CityLoading) {
-                      print(state);
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is CityHasData) {
-                      print(state);
                       final cities = state.cities;
                       return SizedBox(
                         height: 140,
@@ -169,10 +167,8 @@ class HomePageState extends State<HomePage> {
                         ),
                       );
                     } else if (state is CityFailed) {
-                      print(state);
                       return Text(state.message);
                     } else {
-                      print(state);
                       return Container();
                     }
                   }),

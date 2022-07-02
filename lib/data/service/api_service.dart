@@ -53,7 +53,7 @@ class ApiService {
         username: result.username,
         password: result.password,
         points: result.points,
-        plans: result.plans,
+        plans: result.plans.isEmpty ? [] : result.plans,
       );
       return user;
     } else {
@@ -107,7 +107,8 @@ class ApiService {
     final response = await _client.get(Uri.parse(baseUrl + '/cities'));
     if (response.statusCode == 200) {
       return List<CityModel>.from(
-          json.decode(response.body).map((x) => CityModel.fromJson(x)));
+        json.decode(response.body).map((x) => CityModel.fromJson(x)),
+      );
     } else {
       throw ServerException();
     }

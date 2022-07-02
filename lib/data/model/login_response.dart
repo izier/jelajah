@@ -30,8 +30,11 @@ class LoginResponse extends Equatable {
         password: json["user"]["password"],
         id: json["user"]["id"],
         points: json["user"]["points"],
-        plans: List<PlanModel>.from(
-            json["user"]["plans"].map((x) => PlanModel.fromJson(x))),
+        plans: json["user"]["plans"] == []
+            ? <PlanModel>[]
+            : List<PlanModel>.from(
+                json["user"]["plans"].map((x) => PlanModel.fromJson(x)),
+              ),
       );
 
   @override
