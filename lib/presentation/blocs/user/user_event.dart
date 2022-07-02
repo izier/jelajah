@@ -24,3 +24,12 @@ class AddPlanEvent extends UserEvent {
   @override
   List<Object> get props => [plan];
 }
+
+class UpdateMissionEvent extends UserEvent {
+  final MissionModel mission;
+
+  const UpdateMissionEvent(this.mission);
+
+  @override
+  List<Object> get props => [mission];
+}

@@ -6,6 +6,8 @@ import 'package:jelajah/common/exception.dart';
 import 'package:jelajah/data/model/city.dart';
 import 'package:jelajah/data/model/login_model.dart';
 import 'package:jelajah/data/model/login_response.dart';
+import 'package:jelajah/data/model/mission.dart';
+import 'package:jelajah/data/model/mission_response.dart';
 import 'package:jelajah/data/model/plan.dart';
 import 'package:jelajah/data/model/register_model.dart';
 import 'package:jelajah/data/model/register_response.dart';
@@ -51,7 +53,7 @@ class ApiService {
         username: result.username,
         password: result.password,
         points: result.points,
-        plans: const [],
+        plans: result.plans,
       );
       return user;
     } else {
@@ -69,6 +71,22 @@ class ApiService {
     if (response.statusCode == 200) {
       final result = plan;
       return result;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<String> updateMission(MissionModel mission) async {
+    final response = await _client.post(
+      Uri.parse(
+        baseUrl + '/users/' + Constant.userSession.toString() + '/missions',
+      ),
+      headers: headers,
+      body: jsonEncode(mission.toJson()),
+    );
+    if (response.statusCode == 200) {
+      final result = MissionResponse.fromJson(json.decode(response.body));
+      return result.message;
     } else {
       throw ServerException();
     }

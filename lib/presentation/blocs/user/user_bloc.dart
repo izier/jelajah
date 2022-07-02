@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:jelajah/data/model/mission.dart';
 import 'package:jelajah/data/model/plan.dart';
 import 'package:jelajah/data/repository/user_repository.dart';
 import 'package:jelajah/domain/entity/user.dart';
@@ -31,6 +32,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(AddFailed(failure.message));
       }, (data) {
         emit(AddSuccess(data));
+      });
+    });
+
+    on<UpdateMissionEvent>((event, emit) async {
+      emit(UserLoading());
+
+      final result = await userRepository.updateMission(event.mission);
+
+      result.fold((failure) {
+        emit(UpdateMissionFailed(failure.message));
+      }, (message) {
+        emit(UpdateMissionSuccess(message));
       });
     });
   }

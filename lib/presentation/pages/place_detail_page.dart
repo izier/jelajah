@@ -7,7 +7,9 @@ class PlaceDetailPage extends StatelessWidget {
   final PlaceModel placeDetail;
 
   const PlaceDetailPage({Key? key, required this.placeDetail})
-      : super(key: key);
+      : super(
+          key: key,
+        );
 
   @override
   Widget build(BuildContext context) {

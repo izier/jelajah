@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:jelajah/common/constants.dart';
 import 'package:jelajah/common/exception.dart';
 import 'package:jelajah/common/failure.dart';
 import 'package:jelajah/data/model/login_model.dart';
+import 'package:jelajah/data/model/mission.dart';
 import 'package:jelajah/data/model/plan.dart';
 import 'package:jelajah/data/model/register_model.dart';
 import 'package:jelajah/data/service/api_service.dart';
@@ -17,6 +17,7 @@ abstract class UserRepository {
   Future<Either<Failure, User>> login(Login login);
   Future<Either<Failure, String>> register(Register register);
   Future<Either<Failure, PlanModel>> addPlan(PlanModel plan);
+  Future<Either<Failure, String>> updateMission(MissionModel mission);
 }
 
 class UserRepositoryImpl implements UserRepository {
@@ -78,7 +79,22 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<Failure, PlanModel>> addPlan(PlanModel plan) async {
     try {
       final result = await apiService.addPlan(plan);
-      Constant.user!.plans!.add(plan);
+      return Right(result);
+    } on ServerException {
+      return const Left(
+        ServerFailure('Terjadi kesalahan'),
+      );
+    } on SocketException {
+      return const Left(
+          ConnectionFailure('Gagal dalam menghubungkan ke internet'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> updateMission(
+      MissionModel missionModel) async {
+    try {
+      final result = await apiService.updateMission(missionModel);
       return Right(result);
     } on ServerException {
       return const Left(

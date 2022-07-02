@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:jelajah/data/model/plan.dart';
 
 class LoginResponse extends Equatable {
   final String status;
@@ -8,6 +9,7 @@ class LoginResponse extends Equatable {
   final String password;
   final int id;
   final int points;
+  final List<PlanModel> plans;
 
   const LoginResponse({
     required this.status,
@@ -17,6 +19,7 @@ class LoginResponse extends Equatable {
     required this.password,
     required this.username,
     required this.points,
+    required this.plans,
   });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
@@ -27,6 +30,7 @@ class LoginResponse extends Equatable {
         password: json["user"]["password"],
         id: json["user"]["id"],
         points: json["user"]["points"],
+        plans: json["user"]["plans"],
       );
 
   @override
@@ -38,5 +42,6 @@ class LoginResponse extends Equatable {
         password,
         id,
         points,
+        plans,
       ];
 }

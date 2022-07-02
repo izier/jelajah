@@ -46,3 +46,21 @@ class AddFailed extends UserState {
   @override
   List<Object> get props => [message];
 }
+
+class UpdateMissionSuccess extends UserState {
+  final String message;
+
+  const UpdateMissionSuccess(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
+class UpdateMissionFailed extends UserState {
+  final String message;
+
+  const UpdateMissionFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
