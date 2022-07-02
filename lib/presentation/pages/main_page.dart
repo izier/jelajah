@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jelajah/common/constants.dart';
 import 'package:jelajah/common/theme.dart';
+import 'package:jelajah/presentation/blocs/city/city_bloc.dart';
+import 'package:jelajah/presentation/blocs/place/place_bloc.dart';
 import 'package:jelajah/presentation/blocs/user/user_bloc.dart';
 import 'package:jelajah/presentation/pages/account_page.dart';
 import 'package:jelajah/presentation/pages/explore_page.dart';
@@ -34,6 +36,8 @@ class MainPageState extends State<MainPage> {
     Future.microtask(() {
       BlocProvider.of<UserBloc>(context, listen: false)
           .add(GetUserEvent(Constant.userSession));
+      BlocProvider.of<PlaceBloc>(context, listen: false).add(GetPlaceEvent());
+      BlocProvider.of<CityBloc>(context, listen: false).add(GetCityEvent());
     });
   }
 

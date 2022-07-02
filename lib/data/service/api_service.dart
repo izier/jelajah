@@ -53,7 +53,7 @@ class ApiService {
         username: result.username,
         password: result.password,
         points: result.points,
-        plans: result.plans.isEmpty ? [] : result.plans,
+        plans: result.plans!.isEmpty ? [] : result.plans,
       );
       return user;
     } else {

@@ -12,14 +12,6 @@ class ExplorePage extends StatefulWidget {
 }
 
 class ExplorePageState extends State<ExplorePage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      BlocProvider.of<CityBloc>(context, listen: false).add(GetCityEvent());
-    });
-  }
-
   static const colorAbu = Color(0xff8F8F8F);
 
   @override

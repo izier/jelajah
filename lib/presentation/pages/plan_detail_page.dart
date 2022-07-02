@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jelajah/common/constants.dart';
 import 'package:jelajah/common/theme.dart';
 import 'package:jelajah/data/model/plan.dart';
+import 'package:jelajah/domain/entity/user.dart';
 import 'package:jelajah/presentation/blocs/user/user_bloc.dart';
 import 'package:jelajah/presentation/widgets/card_mission.dart';
 
@@ -18,11 +19,26 @@ class PlanDetailPage extends StatefulWidget {
 class _PlanDetailPageState extends State<PlanDetailPage> {
   @override
   Widget build(BuildContext context) {
-    final user = Constant.user;
-    var plan = user!.plans!.where(
-      (element) => element.id == widget.planDetail.id,
+    User user;
+    var plan;
+    bool isAdded = false;
+    BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        if (state is UserLoading) {
+          return Container();
+        } else if (state is UserHasData) {
+          user = state.user;
+          plan = user.plans!
+              .where((element) => element.id == widget.planDetail.id);
+          isAdded = plan != null ? true : false;
+        } else if (state is UserFailed) {
+          return Container();
+        } else {
+          return Container();
+        }
+        return Container();
+      },
     );
-    bool isAdded = plan.isNotEmpty ? true : false;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -43,11 +59,6 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
               backgroundColor: Colors.green,
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            setState(() {
-              plan = user.plans!
-                  .where((element) => element.id == widget.planDetail.id);
-              isAdded = plan.isNotEmpty ? true : false;
-            });
           } else if (state is AddFailed) {
             const SnackBar snackBar = SnackBar(
               content: Text('Terdapat kesalahan'),
@@ -118,7 +129,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(24.0),
                 child: ElevatedButton(
                   style: isAdded ? secondaryButton : primaryButton,
                   child: isAdded
@@ -126,15 +137,19 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                       : Text('Masukkan ke daftar plan',
                           style: fontStyle.button),
                   onPressed: () {
-                    context.read<UserBloc>().add(AddPlanEvent(
-                          PlanModel(
-                              id: widget.planDetail.id,
-                              name: widget.planDetail.name,
-                              category: widget.planDetail.category,
-                              description: widget.planDetail.description,
-                              missions: widget.planDetail.missions,
-                              status: widget.planDetail.status),
-                        ));
+                    BlocProvider.of<UserBloc>(context, listen: false)
+                        .add(GetUserEvent(Constant.userSession));
+                    isAdded
+                        ? null
+                        : context.read<UserBloc>().add(AddPlanEvent(
+                              PlanModel(
+                                  id: widget.planDetail.id,
+                                  name: widget.planDetail.name,
+                                  category: widget.planDetail.category,
+                                  description: widget.planDetail.description,
+                                  missions: widget.planDetail.missions,
+                                  status: widget.planDetail.status),
+                            ));
                   },
                 ),
               )
