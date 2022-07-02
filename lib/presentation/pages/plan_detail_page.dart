@@ -19,26 +19,6 @@ class PlanDetailPage extends StatefulWidget {
 class _PlanDetailPageState extends State<PlanDetailPage> {
   @override
   Widget build(BuildContext context) {
-    User user;
-    var plan;
-    bool isAdded = false;
-    BlocBuilder<UserBloc, UserState>(
-      builder: (context, state) {
-        if (state is UserLoading) {
-          return Container();
-        } else if (state is UserHasData) {
-          user = state.user;
-          plan = user.plans!
-              .where((element) => element.id == widget.planDetail.id);
-          isAdded = plan != null ? true : false;
-        } else if (state is UserFailed) {
-          return Container();
-        } else {
-          return Container();
-        }
-        return Container();
-      },
-    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -58,6 +38,8 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
               content: Text('Plan berhasil ditambahkan'),
               backgroundColor: Colors.green,
             );
+            BlocProvider.of<UserBloc>(context, listen: false)
+                .add(GetUserEvent(Constant.userSession));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           } else if (state is AddFailed) {
             const SnackBar snackBar = SnackBar(
@@ -73,7 +55,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -126,33 +108,46 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                       ],
                     ),
                   ),
+                  BlocBuilder<UserBloc, UserState>(
+                    builder: (context, state) {
+                      if (state is UserHasData) {
+                        User user = state.user;
+                        var plan = user.plans!.where(
+                            (element) => element.id == widget.planDetail.id);
+                        bool isAdded = plan.isEmpty ? false : true;
+                        return Padding(
+                          padding: const EdgeInsets.all(24.0),
+                          child: ElevatedButton(
+                            style: isAdded ? secondaryButton : primaryButton,
+                            child: isAdded
+                                ? Text('Telah ditambahkan',
+                                    style: fontStyle.button)
+                                : Text('Masukkan ke daftar plan',
+                                    style: fontStyle.button),
+                            onPressed: () {
+                              isAdded
+                                  ? null
+                                  : context.read<UserBloc>().add(AddPlanEvent(
+                                        PlanModel(
+                                            id: widget.planDetail.id,
+                                            name: widget.planDetail.name,
+                                            category:
+                                                widget.planDetail.category,
+                                            description:
+                                                widget.planDetail.description,
+                                            missions:
+                                                widget.planDetail.missions,
+                                            status: widget.planDetail.status),
+                                      ));
+                            },
+                          ),
+                        );
+                      }
+                      return Container();
+                    },
+                  ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: ElevatedButton(
-                  style: isAdded ? secondaryButton : primaryButton,
-                  child: isAdded
-                      ? Text('Telah ditambahkan', style: fontStyle.button)
-                      : Text('Masukkan ke daftar plan',
-                          style: fontStyle.button),
-                  onPressed: () {
-                    BlocProvider.of<UserBloc>(context, listen: false)
-                        .add(GetUserEvent(Constant.userSession));
-                    isAdded
-                        ? null
-                        : context.read<UserBloc>().add(AddPlanEvent(
-                              PlanModel(
-                                  id: widget.planDetail.id,
-                                  name: widget.planDetail.name,
-                                  category: widget.planDetail.category,
-                                  description: widget.planDetail.description,
-                                  missions: widget.planDetail.missions,
-                                  status: widget.planDetail.status),
-                            ));
-                  },
-                ),
-              )
             ],
           ),
         ),

@@ -245,7 +245,7 @@ class AccountPageState extends State<AccountPage> {
 }
 
 Widget _missionBuilder(User user) {
-  if (user.plans!.isNotEmpty) {
+  if (user.plans!.where((element) => element.status).isNotEmpty) {
     return SizedBox(
       height: 48 * user.plans!.length.toDouble(),
       child: ListView.builder(

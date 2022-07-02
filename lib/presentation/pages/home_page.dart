@@ -41,7 +41,8 @@ class HomePageState extends State<HomePage> {
                             } else if (state is UserHasData) {
                               return Text(
                                   'Halo ' +
-                                      (state.user.fullname).split(' ').first,
+                                      (state.user.fullname).split(' ').first +
+                                      '!',
                                   style: fontStyle.headline1);
                             } else if (state is UserFailed) {
                               return Center(

@@ -22,23 +22,23 @@ class CardMission extends StatefulWidget {
 class _CardMissionState extends State<CardMission> {
   late CameraDescription _cameraDescription;
 
-  @override
-  void initState() {
-    super.initState();
-    availableCameras().then((cameras) {
-      final camera = cameras
-          .where((camera) => camera.lensDirection == CameraLensDirection.back)
-          .toList()
-          .first;
-      setState(() {
-        _cameraDescription = camera;
-      });
-    }).catchError((err) {
-      if (kDebugMode) {
-        print(err);
-      }
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   availableCameras().then((cameras) {
+  //     final camera = cameras
+  //         .where((camera) => camera.lensDirection == CameraLensDirection.back)
+  //         .toList()
+  //         .first;
+  //     setState(() {
+  //       _cameraDescription = camera;
+  //     });
+  //   }).catchError((err) {
+  //     if (kDebugMode) {
+  //       print(err);
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
