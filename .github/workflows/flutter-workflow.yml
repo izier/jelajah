@@ -19,7 +19,6 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{secrets.TOKEN}}
       JAVA_VERSION: "11.0"
       FLUTTER_VERSION: "3.0.4"
     steps:
@@ -35,4 +34,4 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/flutter-apk/*.apk"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TOKEN }}
