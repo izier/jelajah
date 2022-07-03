@@ -273,7 +273,7 @@ Widget _missionBuilder(User user) {
 List _getLevel(int points) {
   int percent;
   String image;
-  String level = "Penjelajah";
+  String level = "Penjelajah ";
   if (points <= 1000) {
     image = '1';
     level += 'Pemula I';

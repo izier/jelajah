@@ -22,6 +22,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
   @override
   Widget build(BuildContext context) {
     PlanModel planFix = widget.planDetail;
+    int finished = planFix.missions.where((element) => element.status ==  true).length;
     BlocBuilder<UserBloc, UserState>(
       builder: ((context, state) {
         if (state is UserHasData) {
@@ -95,7 +96,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                   const SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Text('0 dari ' +
+                    child: Text(finished.toString() + ' dari ' +
                         widget.planDetail.missions.length.toString() +
                         ' telah selesai'),
                   ),
