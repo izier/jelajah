@@ -28,10 +28,10 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: $
+          java-version: '12.x'
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: $
+          channel: 'beta'
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
