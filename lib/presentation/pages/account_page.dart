@@ -36,15 +36,6 @@ class AccountPageState extends State<AccountPage> {
   static const colorAbu = Color(0xff8F8F8F);
 
   @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      BlocProvider.of<UserBloc>(context, listen: false)
-          .add(GetUserEvent(Constant.userSession));
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -255,20 +246,15 @@ class AccountPageState extends State<AccountPage> {
 }
 
 Widget _missionBuilder(User user) {
-  int counter = 0;
-  List<PlanModel>? planFix = user.plans;
-  print(user.fullname);
-  var missions = user.plans![0].missions.where((element) => element.status);
-  print('account');
-  print(planFix);
-  for (int i = 0; i < user.plans!.length; i++) {
-    var missions = user.plans![i].missions.where((element) => element.status);
-    if (missions.length != user.plans![i].missions.length) {
-      planFix!.removeAt(i - counter);
-      counter++;
-    }
-  }
-  if (planFix!.isNotEmpty) {
+  final planFix = user.plans!.where((element) => element.status == true);
+  if (planFix.isEmpty) {
+    return Center(
+      child: Text(
+        'Anda belum memiliki paket misi aktif',
+        style: fontStyle.bodyText1,
+      ),
+    );
+  } else {
     return SizedBox(
       height: 48 * planFix.length.toDouble(),
       child: ListView.builder(
@@ -277,18 +263,8 @@ Widget _missionBuilder(User user) {
         shrinkWrap: true,
         itemCount: planFix.length,
         itemBuilder: (context, index) {
-          if (planFix[index].status) {
-            return CardClearPlan(plan: planFix[index]);
-          }
-          return Container();
+          return CardClearPlan(plan: planFix.elementAt(index));
         },
-      ),
-    );
-  } else {
-    return Center(
-      child: Text(
-        'Anda belum menyelesaikan misi apapun',
-        style: fontStyle.bodyText1,
       ),
     );
   }

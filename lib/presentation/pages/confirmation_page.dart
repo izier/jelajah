@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jelajah/common/constants.dart';
@@ -71,8 +72,12 @@ class ConfirmationPage extends StatelessWidget {
                       child: Text(mission.name, style: fontStyle.headline1)),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: Image.network(
-                      iconUrl,
+                    child: CachedNetworkImage(
+                      imageUrl: iconUrl,
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   )
                 ],
@@ -84,8 +89,18 @@ class ConfirmationPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Foto', style: fontStyle.headline2),
-                        Text(mission.name, style: fontStyle.headline2)
+                        Expanded(
+                          flex: 1,
+                          child: Text('Foto', style: fontStyle.headline2),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            mission.name,
+                            style: fontStyle.headline2,
+                            textAlign: TextAlign.end,
+                          ),
+                        )
                       ],
                     ),
                     const SizedBox(height: 8),

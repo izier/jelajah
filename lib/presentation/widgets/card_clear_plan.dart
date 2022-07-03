@@ -44,14 +44,21 @@ class _CardClearPlanState extends State<CardClearPlan> {
             Expanded(
               flex: 1,
               child: Center(
-                child: Text('1/' + planDetail!.missions.length.toString(),
+                child: Text(
+                    widget.plan.missions.length.toString() +
+                        '/' +
+                        widget.plan.missions.length.toString(),
                     style: fontStyle.bodyText1),
               ),
             ),
             Expanded(
               flex: 4,
               child: Text(widget.plan.name, style: fontStyle.bodyText1),
-            )
+            ),
+            Expanded(
+              flex: 1,
+              child: Icon(Icons.check, color: Theme.of(context).primaryColor),
+            ),
           ],
         ),
       ),
@@ -59,7 +66,7 @@ class _CardClearPlanState extends State<CardClearPlan> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PlanDetailPage(planDetail: planDetail!),
+            builder: (context) => PlanDetailPage(planDetail: widget.plan),
           ),
         );
       },

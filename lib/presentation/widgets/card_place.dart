@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
 import 'package:jelajah/data/model/place.dart';
@@ -45,10 +46,13 @@ class CardPlace extends StatelessWidget {
               flex: 2,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  place.coverImage,
+                child: CachedNetworkImage(
                   width: 120,
                   fit: BoxFit.cover,
+                  imageUrl: place.coverImage,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),

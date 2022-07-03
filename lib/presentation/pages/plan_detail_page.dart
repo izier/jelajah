@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jelajah/common/constants.dart';
@@ -50,7 +51,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
           } else if (state is AddSuccess) {
             const SnackBar snackBar = SnackBar(
               content: Text('Plan berhasil ditambahkan'),
-              backgroundColor: Color.fromARGB(255, 143, 160, 143),
+              backgroundColor: Colors.green,
             );
             BlocProvider.of<UserBloc>(context, listen: false)
                 .add(GetUserEvent(Constant.userSession));
@@ -82,7 +83,12 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                                 style: fontStyle.headline1)),
                         Expanded(
                             flex: 1,
-                            child: Image.network(widget.planDetail.category)),
+                            child: CachedNetworkImage(
+                                imageUrl: widget.planDetail.category,
+                                placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error))),
                       ],
                     ),
                   ),

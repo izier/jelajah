@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
 import 'package:jelajah/data/model/place.dart';
@@ -24,8 +25,11 @@ class PlaceDetailPage extends StatelessWidget {
               pinned: true,
               expandedHeight: MediaQuery.of(context).size.height / 2,
               flexibleSpace: FlexibleSpaceBar(
-                background: Image.network(
-                  placeDetail.coverImage,
+                background: CachedNetworkImage(
+                  imageUrl: placeDetail.coverImage,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -103,9 +107,12 @@ class PlaceDetailPage extends StatelessWidget {
                       margin: margin,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          placeDetail.image[index],
-                          width: 280,
+                        child: CachedNetworkImage(
+                          imageUrl: placeDetail.image[index],
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                           fit: BoxFit.cover,
                         ),
                       ),

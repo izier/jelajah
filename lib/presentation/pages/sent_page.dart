@@ -18,11 +18,13 @@ class SentPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Foto terkirim', style: fontStyle.headline1),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text('Foto terkirim', style: fontStyle.headline1),
+                  const SizedBox(height: 16),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset('assets/images/sent_banner.png'),

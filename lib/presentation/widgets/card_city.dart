@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
 import 'package:jelajah/data/model/city.dart';
@@ -42,7 +43,15 @@ class CardCity extends StatelessWidget {
       child: InkWell(
         child: Column(
           children: [
-            Expanded(flex: 4, child: Image.network(city.icon)),
+            Expanded(
+              flex: 4,
+              child: CachedNetworkImage(
+                imageUrl: city.icon,
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+            ),
             Expanded(
                 flex: 1, child: Text(city.name, style: fontStyle.bodyText1))
           ],

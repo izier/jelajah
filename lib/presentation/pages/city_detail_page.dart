@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jelajah/common/theme.dart';
 import 'package:jelajah/data/model/city.dart';
+import 'package:jelajah/presentation/blocs/user/user_bloc.dart';
+import 'package:jelajah/presentation/widgets/card_clear_plan.dart';
 import 'package:jelajah/presentation/widgets/card_place.dart';
 import 'package:jelajah/presentation/widgets/card_plan.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CityDetailPage extends StatelessWidget {
   final CityModel cityDetail;
@@ -27,7 +31,14 @@ class CityDetailPage extends StatelessWidget {
                 background: Container(
                   padding: const EdgeInsets.all(24),
                   alignment: Alignment.bottomRight,
-                  child: Image.network(cityDetail.icon, width: 64),
+                  child: CachedNetworkImage(
+                    imageUrl: cityDetail.icon,
+                    placeholder: (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    width: 64,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     image: DecorationImage(
@@ -57,17 +68,41 @@ class CityDetailPage extends StatelessWidget {
                     const SizedBox(height: 16),
                     Text('Paket misi tersedia', style: fontStyle.headline2),
                     const SizedBox(height: 8),
-                    SizedBox(
-                      height: 48 * cityDetail.plans.length.toDouble(),
-                      child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.symmetric(vertical: 0),
-                        shrinkWrap: true,
-                        itemCount: cityDetail.plans.length,
-                        itemBuilder: (context, index) {
-                          return CardPlan(plan: cityDetail.plans[index]);
-                        },
-                      ),
+                    BlocBuilder<UserBloc, UserState>(
+                      builder: (context, state) {
+                        if (state is UserLoading) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (state is UserHasData) {
+                          return SizedBox(
+                            height: 48 * cityDetail.plans.length.toDouble(),
+                            child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.symmetric(vertical: 0),
+                              shrinkWrap: true,
+                              itemCount: cityDetail.plans.length,
+                              itemBuilder: (context, index) {
+                                final plan = state.user.plans!.where(
+                                    (element) =>
+                                        element.name ==
+                                        cityDetail.plans[index].name);
+                                if (plan.isEmpty) {
+                                  return CardPlan(
+                                      plan: cityDetail.plans[index]);
+                                } else {
+                                  if (plan.first.status) {
+                                    return CardClearPlan(plan: plan.first);
+                                  } else {
+                                    return CardPlan(plan: plan.first);
+                                  }
+                                }
+                              },
+                            ),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
                     ),
                     const SizedBox(height: 16),
                     Text('Tempat wisata', style: fontStyle.headline2)

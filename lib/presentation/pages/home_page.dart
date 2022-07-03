@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jelajah/data/model/plan.dart';
 import 'package:jelajah/domain/entity/user.dart';
 import 'package:jelajah/presentation/blocs/city/city_bloc.dart';
 import 'package:jelajah/presentation/blocs/place/place_bloc.dart';
@@ -9,7 +8,6 @@ import 'package:jelajah/presentation/widgets/card_place.dart';
 import 'package:jelajah/presentation/widgets/card_plan.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:jelajah/common/theme.dart';
-import 'package:jelajah/common/constants.dart';
 import 'package:jelajah/presentation/widgets/card_city.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,15 +18,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      BlocProvider.of<UserBloc>(context, listen: false)
-          .add(GetUserEvent(Constant.userSession));
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -243,16 +232,8 @@ class HomePageState extends State<HomePage> {
 }
 
 Widget _missionBuilder(User user) {
-  List<PlanModel>? planFix = user.plans;
-  int counter = 0;
-  for (int i = 0; i < user.plans!.length; i++) {
-    var missions = user.plans![i].missions.where((element) => element.status);
-    if (missions.length == user.plans![i].missions.length) {
-      planFix!.removeAt(i - counter);
-      counter++;
-    }
-  }
-  if (planFix!.isEmpty) {
+  final planFix = user.plans!.where((element) => element.status == false);
+  if (planFix.isEmpty) {
     return Center(
       child: Text(
         'Anda belum memiliki paket misi aktif',
@@ -268,7 +249,7 @@ Widget _missionBuilder(User user) {
         shrinkWrap: true,
         itemCount: planFix.length,
         itemBuilder: (context, index) {
-          return CardPlan(plan: planFix[index]);
+          return CardPlan(plan: planFix.elementAt(index));
         },
       ),
     );

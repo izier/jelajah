@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:jelajah/common/theme.dart';
 import 'package:jelajah/data/model/city.dart';
@@ -36,7 +37,12 @@ class _CardCityExploreState extends State<CardCityExplore> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.network(widget.city.icon),
+            CachedNetworkImage(
+              imageUrl: widget.city.icon,
+              placeholder: (context, url) =>
+                  const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
             const SizedBox(
               width: 16,
             ),
