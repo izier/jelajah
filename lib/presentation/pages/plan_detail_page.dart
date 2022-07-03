@@ -164,7 +164,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                                                 widget.planDetail.description,
                                             missions:
                                                 widget.planDetail.missions,
-                                            status: widget.planDetail.status),
+                                            status: false),
                                       ));
                             },
                           ),

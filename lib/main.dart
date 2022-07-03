@@ -17,8 +17,9 @@ Widget home = const WelcomePage();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = SharedPreferenceService();
+  Constant.userSession = await prefs.userSession;
 
-  home = Constant.user != null ? const MainPage() : const WelcomePage();
+  home = Constant.userSession != 0 ? const MainPage() : const WelcomePage();
   Constant.userSession = await prefs.userSession;
 
   di.init();
